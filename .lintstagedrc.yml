@@ -1,0 +1,3 @@
+"*.{md,html,css,yml,yaml}": "prettier --write"
+".eslintrc.js": "prettier --write"
+"(!.eslintrc.js).{js,ts}": "eslint --cache --max-warnings 0 --fix"
