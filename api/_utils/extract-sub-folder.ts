@@ -13,6 +13,7 @@ function processHeader(
   header: tar.Headers,
   root: string | undefined,
   subdir: string,
+  prepend = "package/",
 ):
   | undefined
   | { action: "set-root"; data: string }
@@ -23,14 +24,14 @@ function processHeader(
   } else if (name.startsWith(root)) {
     const dir = root + subdir;
     if (name.startsWith(dir) && name.length > dir.length) {
-      header.name = name.slice(dir.length);
+      header.name = prepend + name.slice(dir.length);
       if (header.pax) {
         if (!header.pax.path.startsWith(dir)) {
           throw new Error(
             "source file is not valid due to tarball pax header mismatch",
           );
         }
-        header.pax.path = header.pax.path.slice(dir.length);
+        header.pax.path = prepend + header.pax.path.slice(dir.length);
       }
       return { action: "pipe", data: header };
     } else {
