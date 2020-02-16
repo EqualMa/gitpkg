@@ -33,9 +33,22 @@ export default async (request: NowRequest, response: NowResponse) => {
   try {
     await Promise.all([
       pipeline(got.stream(tgzUrl), gunzip(), extract),
-      pipeline(pack, gzip, response),
+      pipeline(
+        pack,
+        gzip,
+        response.writeHead(200, {
+          "Content-Disposition": `attachment; filename="${[
+            commitInfo.user,
+            commitInfo.repo,
+            ...(commitInfo.subdirs || []),
+            commitInfo.commit,
+          ]
+            .filter(Boolean)
+            .join("-")}.tgz"`,
+          "Content-Type": "application/gzip",
+        }),
+      ),
     ]);
-    response.status(200).json(`done: ` + __dirname);
   } catch (err) {
     console.error(`request ${request.url} fail with message: ${err.message}`);
     response

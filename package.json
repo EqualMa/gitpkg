@@ -8,7 +8,7 @@
     "dev": "yarn run docs:dev --port $PORT",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
-    "now-build": "yarn run docs:build"
+    "build": "vuepress build docs"
   },
   "devDependencies": {
     "@now/node": "^1.4.1",

@@ -15,6 +15,7 @@ export interface CommitIshInfo {
   repo: string;
   /** "" or a string which ends with "/" or undefined */
   subdir: string | undefined;
+  subdirs: string[] | undefined;
   commit: string | undefined;
 }
 
@@ -34,6 +35,7 @@ export function parseCommitUrl(url: string): CommitIshInfo | null {
     user,
     repo,
     subdir: subdir ? subdir.join("/") + "/" : undefined,
+    subdirs: subdir,
     commit,
   };
 }
