@@ -13,7 +13,7 @@ import * as codes from "./_http_status_code";
 const pipeline = promisify(stream.pipeline);
 
 export default async (request: NowRequest, response: NowResponse) => {
-  const { url } = request.query;
+  const { url, commit } = request.query;
 
   const commitInfo = typeof url === "string" ? parseCommitUrl(url) : null;
 
@@ -21,6 +21,15 @@ export default async (request: NowRequest, response: NowResponse) => {
     response.status(codes.BAD_REQUEST).json(`param url not valid: ${url}`);
     return;
   }
+
+  if (typeof commit !== "undefined" && typeof commit !== "string") {
+    response
+      .status(codes.BAD_REQUEST)
+      .json(`param commit not valid: ${commit}`);
+    return;
+  }
+
+  commitInfo.commit = commit.trim();
 
   const tgzUrl = codeloadUrl(
     `${commitInfo.user}/${commitInfo.repo}`,
