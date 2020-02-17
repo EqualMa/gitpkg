@@ -9,6 +9,7 @@ import zlib from "zlib";
 import { parseCommitUrl, codeloadUrl } from "./_utils/parse-url";
 import { subFolderStreamOfTar } from "./_utils/extract-sub-folder";
 import * as codes from "./_http_status_code";
+import { extractInfoFromHttpError } from "./_utils/extract-http-error";
 
 const pipeline = promisify(stream.pipeline);
 
@@ -40,28 +41,34 @@ export default async (request: NowRequest, response: NowResponse) => {
   const gzip = zlib.createGzip();
 
   try {
+    response.status(200);
+    response.setHeader(
+      "Content-Disposition",
+      `attachment; filename="${[
+        commitInfo.user,
+        commitInfo.repo,
+        ...(commitInfo.subdirs || []),
+        commitInfo.commit,
+      ]
+        .filter(Boolean)
+        .join("-")}.tgz"`,
+    );
+    response.setHeader("Content-Type", "application/gzip");
+
     await Promise.all([
       pipeline(got.stream(tgzUrl), gunzip(), extract),
-      pipeline(
-        pack,
-        gzip,
-        response.writeHead(200, {
-          "Content-Disposition": `attachment; filename="${[
-            commitInfo.user,
-            commitInfo.repo,
-            ...(commitInfo.subdirs || []),
-            commitInfo.commit,
-          ]
-            .filter(Boolean)
-            .join("-")}.tgz"`,
-          "Content-Type": "application/gzip",
-        }),
-      ),
+      pipeline(pack, gzip, response),
     ]);
   } catch (err) {
     console.error(`request ${request.url} fail with message: ${err.message}`);
-    response
-      .status(codes.INTERNAL_SERVER_ERROR)
-      .json(`download or parse fail for: ${tgzUrl}`);
+
+    const { code, message } = extractInfoFromHttpError(err, {
+      code: codes.INTERNAL_SERVER_ERROR,
+      message: `download or parse fail for: ${tgzUrl}`,
+    });
+
+    response.removeHeader("Content-Disposition");
+    response.removeHeader("Content-Type");
+    response.status(code).json(message);
   }
 };

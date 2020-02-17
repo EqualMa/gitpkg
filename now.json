@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/([^/]+)(/)?",
+      "destination": "/$1/index.html"
+    },
+    {
+      "source": "/:url((?:[^?]+/)+[^?]+){\\?:commit(.+)}?",
+      "destination": "/api/pkg"
+    }
+  ]
+}
