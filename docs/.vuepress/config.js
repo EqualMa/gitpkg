@@ -35,6 +35,9 @@ module.exports = async () => {
         {
           serviceWorker: true,
           updatePopup: true,
+          generateSWConfig: {
+            importWorkboxFrom: "local",
+          },
         },
       ],
     ],
