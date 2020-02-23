@@ -1,4 +1,7 @@
 "use strict";
+/* eslint-env node */
+/* eslint-env es6 */
+/* eslint @typescript-eslint/no-var-requires: "off" */
 
 const { generateImages } = require("pwa-asset-generator");
 const path = require("path");
