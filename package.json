@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "@now/node": "^1.4.1",
+    "@serverless-chrome/lambda": "^1.0.0-55",
     "@types/tar-stream": "^1.6.1",
     "@typescript-eslint/eslint-plugin": "^2.19.2",
     "@typescript-eslint/parser": "^2.19.2",
@@ -29,7 +30,7 @@
     "now": "^17.0.3",
     "parse5": "^5.1.1",
     "prettier": "1.19.1",
-    "pwa-asset-generator": "^2.2.1",
+    "pwa-asset-generator": "https://github.com/EqualMa/pwa-asset-generator/raw/build/feat/chrome-aws-lambda/package.tgz",
     "rimraf": "^3.0.2",
     "typescript": "^3.7.5",
     "vue-clipboard2": "^0.3.1",

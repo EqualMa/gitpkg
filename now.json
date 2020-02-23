@@ -1,4 +1,9 @@
 {
+  "build": {
+    "env": {
+      "BUILDING_FOR_NOW": "true"
+    }
+  },
   "rewrites": [
     {
       "source": "/([^/]+)(/)?",

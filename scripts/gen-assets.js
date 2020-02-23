@@ -1,10 +1,15 @@
 "use strict";
+/* eslint-env node */
+/* eslint-env es6 */
+/* eslint @typescript-eslint/no-var-requires: "off" */
 
 const { generateImages } = require("pwa-asset-generator");
 const path = require("path");
 const fs = require("fs").promises;
 const rimraf = require("rimraf");
 const parse5 = require("parse5");
+
+const { BUILDING_FOR_NOW } = require("./now");
 
 const PATH_PUBLIC = path.join(__dirname, "../docs/.vuepress/public/");
 const PATH_BASE_MANIFEST = path.join(__dirname, "manifest.webmanifest");
@@ -18,10 +23,18 @@ const BACKGROUND =
   "radial-gradient(circle, rgba(225,174,238,1) 0%, rgba(238,174,202,1) 100%)";
 
 const GEN_ASSETS_OPTIONS = {
-  scrape: true,
-  log: false,
+  scrape: BUILDING_FOR_NOW,
+  log: !BUILDING_FOR_NOW,
   type: "png",
+  puppeteerChrome: BUILDING_FOR_NOW ? "@serverless-chrome/lambda" : "default",
 };
+
+console.log(
+  BUILDING_FOR_NOW
+    ? `Building in Now.
+gen-assets.js will use @serverless-chrome/lambda and scrape`
+    : "Not building in now.",
+);
 
 function relative(from, to) {
   return path
