@@ -1,4 +1,4 @@
-![GitPkg-icon](docs/.vuepress/public/icon.svg)
+<img alt="GitPkg-icon" src="docs/.vuepress/public/cover.svg" width="100%" height="260px">
 
 # GitPkg
 
