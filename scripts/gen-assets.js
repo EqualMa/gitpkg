@@ -58,7 +58,7 @@ function parseXml(xml) {
     .filter(Boolean);
 }
 
-exports.generateAssets = async () => {
+exports.generateAssets = async ({ splashScreen = true }) => {
   const [baseManifest] = await Promise.all([
     fs.readFile(PATH_BASE_MANIFEST, "utf-8").then(text => {
       fs.writeFile(PATH_MANIFEST, text);
@@ -85,6 +85,7 @@ exports.generateAssets = async () => {
     background: BACKGROUND,
     padding: "0",
     manifest: PATH_MANIFEST,
+    iconOnly: !splashScreen,
   });
 
   const headStr =

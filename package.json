@@ -9,6 +9,7 @@
   },
   "scripts": {
     "lint": "eslint --ext .js,.ts",
+    "gen-assets": "node scripts/main.js",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
     "build": "vuepress build docs"
