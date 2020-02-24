@@ -9,7 +9,7 @@ const branchNamePrecedence = [
   "fix/",
 ];
 
-const getPrecedence = ({ commit, subdir }) => {
+const getPrecedence = ({ commit }) => {
   let i = branchNamePrecedence.findIndex(v =>
     typeof v === "function" ? v(commit) : commit === v,
   );
