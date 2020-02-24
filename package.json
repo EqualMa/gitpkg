@@ -28,7 +28,7 @@
     "lint-staged": "^10.0.7",
     "mdi-vue": "^1.4.3",
     "normalize.css": "^8.0.1",
-    "now": "^17.0.3",
+    "now": "^17.0.4",
     "parse5": "^5.1.1",
     "prettier": "1.19.1",
     "pwa-asset-generator": "^2.2.1",

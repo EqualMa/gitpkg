@@ -6735,10 +6735,10 @@ normalize.css@^8.0.1:
   resolved "https://registry.yarnpkg.com/normalize.css/-/normalize.css-8.0.1.tgz#9b98a208738b9cc2634caacbc42d131c97487bf3"
   integrity sha512-qizSNPO93t1YUuUhP22btGOo3chcvDFqFaj2TRybP0DMxkHOCTYwp3n34fel4a31ORXy4m1Xq0Gyqpb5m33qIg==
 
-now@^17.0.3:
-  version "17.0.3"
-  resolved "https://registry.yarnpkg.com/now/-/now-17.0.3.tgz#74f2ed05cc1814b475f1c51c0f2e5adbb745d7d7"
-  integrity sha512-poZW/PaAXNExf5Aypri+pmtbAWQB/jkEdPpF8MaaWYylAhBZUYk3tbyNmMLeJNxt9V8h1EnGLUwTAakjMEXcJA==
+now@^17.0.4:
+  version "17.0.4"
+  resolved "https://registry.yarnpkg.com/now/-/now-17.0.4.tgz#2204b84b3477937385835dbd975340935cf8151c"
+  integrity sha512-OP4DSlenZ+GJ3f9+dMRr1HL8naMbeU8qlPvprsqagKdrXDdtJRsQObCc7IVyyeTSQPAp3gg6nDP66/ml+dmmFQ==
 
 npm-conf@^1.1.0:
   version "1.1.3"
