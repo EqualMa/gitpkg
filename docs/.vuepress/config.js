@@ -8,6 +8,8 @@ const promiseGenerated = fs
   .readFile(SITE_META_FILE, "utf-8")
   .then(str => JSON.parse(str));
 
+const GA_ID = process.env.GA_ID;
+
 module.exports = async () => {
   const { head, name, description } = await promiseGenerated;
 
@@ -46,6 +48,14 @@ module.exports = async () => {
           },
         },
       ],
-    ],
+      GA_ID
+        ? [
+            "@vuepress/google-analytics",
+            {
+              ga: GA_ID,
+            },
+          ]
+        : null,
+    ].filter(Boolean),
   };
 };
