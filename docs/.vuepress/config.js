@@ -2,8 +2,11 @@
 /* eslint-env node */
 /* eslint @typescript-eslint/no-var-requires: "off" */
 
-const { generateAssets } = require("../../scripts/gen-assets");
-const promiseGenerated = generateAssets();
+const { SITE_META_FILE } = require("../../scripts/constants");
+const fs = require("fs").promises;
+const promiseGenerated = fs
+  .readFile(SITE_META_FILE, "utf-8")
+  .then(str => JSON.parse(str));
 
 module.exports = async () => {
   const { head, name, description } = await promiseGenerated;
