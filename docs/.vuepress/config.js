@@ -53,6 +53,7 @@ module.exports = async () => {
             "@vuepress/google-analytics",
             {
               ga: GA_ID,
+              importScript: "head-alternative",
             },
           ]
         : null,
