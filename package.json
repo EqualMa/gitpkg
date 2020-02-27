@@ -19,7 +19,7 @@
     "@types/tar-stream": "^1.6.1",
     "@typescript-eslint/eslint-plugin": "^2.19.2",
     "@typescript-eslint/parser": "^2.19.2",
-    "@vuepress/plugin-google-analytics": "^1.3.1",
+    "@vuepress/plugin-google-analytics": "https://gitpkg.now.sh/EqualMa/vuepress/packages/@vuepress/plugin-google-analytics?feat/plugin-google-analytics-import-script-option",
     "@vuepress/plugin-pwa": "^1.3.1",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
