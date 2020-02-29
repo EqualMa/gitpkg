@@ -1,0 +1,2 @@
+"*.{vue}": "prettier --write"
+"!(.eslintrc).js": "yarn run lint:fix"

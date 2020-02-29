@@ -2,6 +2,8 @@
 
 # GitPkg
 
+[![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
+
 GitPkg enables you to use a sub directory in a github repo as yarn / npm dependency.
 
 [:tada: Try Now !](https://gitpkg.now.sh)

@@ -63,10 +63,5 @@
     /* Advanced Options */
     "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */
   },
-  "include": [
-    "api/**/*.ts",
-    "shims/**/*.d.ts",
-    "scripts/**/*.js",
-    "docs/.vuepress/**/*.js"
-  ]
+  "include": ["api/**/*.ts", "shims/**/*.d.ts"]
 }
