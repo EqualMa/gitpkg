@@ -14,7 +14,7 @@
   "scripts": {
     "lint": "eslint --cache --ext .js,.ts",
     "lint:fix": "eslint --cache --max-warnings 0 --fix",
-    "build": "echo 'not implemented' && exit 1"
+    "build": "lerna run build"
   },
   "devDependencies": {
     "@now/node": "^1.4.1",

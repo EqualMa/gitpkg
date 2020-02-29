@@ -23,6 +23,7 @@
     "lint": "eslint",
     "lint:fix": "eslint --cache --max-warnings 0 --fix",
     "gen-assets": "node scripts/main.js",
+    "build": "yarn run docs:build",
     "docs:dev": "vuepress dev ../",
     "docs:build": "vuepress build ../"
   }
