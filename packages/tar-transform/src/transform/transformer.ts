@@ -5,24 +5,33 @@ import * as headersUtil from "../util/tar-entry-headers";
 
 const KEY_READABLE_STREAM = Symbol("readableStream");
 const KEY_ON_ENTRY = Symbol("onEntry");
+const KEY_ON_END = Symbol("onEnd");
 
 export type OnEntry<T> = (
   this: TarEntryTransformer<T>,
   entry: TarEntry,
 ) => unknown | Promise<unknown>;
 
-export type TransformerOptions<T> = never extends T
-  ? { onEntry?: OnEntry<T>; initCtx?: never }
-  : { onEntry?: OnEntry<T>; initCtx: T };
+export type OnEnd<T> = (
+  this: TarEntryTransformer<T>,
+) => unknown | Promise<unknown>;
+
+export interface TransformerOptions<T> {
+  onEntry?: OnEntry<T>;
+  initCtx?: T;
+  onEnd?: OnEnd<T>;
+}
 
 export class TarEntryTransformer<T = never> {
   private [KEY_READABLE_STREAM]: Readable | undefined = undefined;
   private [KEY_ON_ENTRY]: OnEntry<T> | undefined;
+  private [KEY_ON_END]: OnEnd<T> | undefined;
 
   public ctx: T;
 
-  public constructor(opts: TransformerOptions<T>) {
+  public constructor(opts: TransformerOptions<T> = {}) {
     this[KEY_ON_ENTRY] = opts.onEntry;
+    this[KEY_ON_END] = opts.onEnd;
     this.ctx = opts.initCtx as T;
   }
 
@@ -52,6 +61,13 @@ export class TarEntryTransformer<T = never> {
 
   public onEntry(entry: TarEntry) {
     return this.onEntryImpl.call(this, entry);
+  }
+
+  public onEnd() {
+    const end = this[KEY_ON_END];
+    if (typeof end === "function") {
+      return end.call(this);
+    }
   }
 
   public push(entry: TarEntry) {

@@ -129,3 +129,52 @@ test("transform content", () =>
       }),
     ).resolves.toBe(true);
   }));
+
+test("transform with context", () =>
+  repeatAsync(async () => {
+    const content = await r.randomString({ min: 1, max: 10 });
+    const [tar1, tar2] = randomTar(false, 2);
+
+    const e1 = extract({ gzip: false });
+    const e2 = extract({ gzip: false });
+
+    let num = -1;
+    const t = transform({
+      onEntry(a) {
+        this.ctx.i++;
+        this.push({
+          headers: a.headers,
+          content,
+        });
+      },
+      onEnd() {
+        num = this.ctx.i;
+      },
+      initCtx: { i: 0 },
+    });
+
+    tar1.pipe(e1).pipe(t);
+    tar2.pipe(e2);
+
+    const [count1, count2] = await Promise.all([
+      new Promise<number>((resolve, reject) => {
+        let i = 0;
+        t.on("data", () => {
+          i++;
+        })
+          .on("error", reject)
+          .on("end", () => resolve(i));
+      }),
+      (async () => {
+        let n = 0;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        for await (const _ of e2) {
+          n++;
+        }
+        return n;
+      })(),
+    ] as const);
+
+    expect(num).toBe(count1);
+    expect(num).toBe(count2);
+  }));

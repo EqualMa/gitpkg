@@ -41,6 +41,10 @@ export class TarTransform<T = never> extends Transform {
       .catch(err => callback(err));
   }
 
+  _flush(callback: TransformCallback) {
+    Promise.resolve(this.transformer.onEnd()).then(() => callback());
+  }
+
   protected transformTarEntry(chunk: TarEntry): void | Promise<void> {
     this.push(chunk);
   }
