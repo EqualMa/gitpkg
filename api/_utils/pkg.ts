@@ -1,13 +1,17 @@
-import { parseCommitUrl, codeloadUrl, CommitIshInfo } from "./parse-url";
 import * as codes from "../_http_status_code";
-import { subFolderStreamOfTar } from "./extract-sub-folder";
+import {
+  subFolderStreamOfTar,
+  parseCommitUrl,
+  codeloadUrl,
+  CommitIshInfo,
+  PkgRequestQuery,
+} from "@gitpkg/core";
 import stream from "stream";
 import { promisify } from "util";
 import got from "got";
 import gunzip from "gunzip-maybe";
 import zlib from "zlib";
 import { extractInfoFromHttpError } from "./extract-http-error";
-import { PkgRequestQuery } from "./request-query";
 
 const pipeline = promisify(stream.pipeline);
 

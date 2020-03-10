@@ -1,0 +1,13 @@
+{
+  "name": "@gitpkg/common",
+  "private": true,
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "engines": {
+    "node": ">= 6"
+  },
+  "scripts": {
+    "lint:fix": "eslint --cache --max-warnings 0 --fix"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "tar-transform",
+  "version": "1.0.0-alpha.1",
+  "description": "a transform stream lib for processing tarball",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "keywords": [
+    "tar",
+    "tarball",
+    "transform",
+    "tgz",
+    "duplex",
+    "gzip"
+  ],
+  "author": {
+    "name": "EqualMa",
+    "email": "equalma@outlook.com",
+    "url": "https://github.com/EqualMa"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/EqualMa/gitpkg.git",
+    "directory": "packages/tar-transform"
+  },
+  "scripts": {
+    "test": "jest",
+    "lint:fix": "eslint --cache --max-warnings 0 --fix",
+    "build": "rimraf dist && tsc -p tsconfig.prod.json --outDir dist --module CommonJS --declaration --sourceMap --declarationMap"
+  }
+}

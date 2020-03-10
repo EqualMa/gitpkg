@@ -5,6 +5,7 @@
   "private": true,
   "workspaces": [
     "docs/.vuepress",
+    "tools/*",
     "packages/*"
   ],
   "repository": {
@@ -17,7 +18,12 @@
     "build": "lerna run build"
   },
   "devDependencies": {
+    "@babel/core": "^7.8.7",
+    "@babel/preset-env": "^7.8.7",
+    "@babel/register": "^7.8.6",
+    "@gitpkg/common": "*",
     "@now/node": "^1.4.1",
+    "@types/jest": "^25.1.3",
     "@types/tar-stream": "^1.6.1",
     "@typescript-eslint/eslint-plugin": "^2.19.2",
     "@typescript-eslint/parser": "^2.19.2",
@@ -27,14 +33,18 @@
     "eslint-plugin-prettier": "^3.1.2",
     "husky": "^4.2.3",
     "imagemin-lint-staged": "^0.4.0",
+    "jest": "^25.1.0",
     "lerna": "^3.20.2",
     "lint-staged": "^10.0.7",
     "now": "^17.0.4",
     "prettier": "1.19.1",
     "rimraf": "^3.0.2",
+    "ts-jest": "^25.2.1",
+    "ts-node": "^8.6.2",
     "typescript": "^3.7.5"
   },
   "dependencies": {
+    "@gitpkg/core": "^0.1.0",
     "got": "^10.5.5",
     "gunzip-maybe": "^1.4.1",
     "path-to-regexp": "^6.1.0",
