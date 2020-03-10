@@ -1,7 +1,6 @@
 import { Readable } from "stream";
 import { TarEntry } from "../types/tar-entry";
-import * as streamUtil from "../util/stream-to";
-import * as headersUtil from "../util/tar-entry-headers";
+import * as util from "../util/transformer-util";
 
 const KEY_READABLE_STREAM = Symbol("readableStream");
 const KEY_ON_ENTRY = Symbol("onEntry");
@@ -74,17 +73,5 @@ export class TarEntryTransformer<T = never> {
     this.readableStream.push(entry);
   }
 
-  // #region utils
-  public headersWithNewName(
-    ...args: Parameters<typeof headersUtil.headersWithNewName>
-  ) {
-    return headersUtil.headersWithNewName(...args);
-  }
-  public streamToBuffer(...args: Parameters<typeof streamUtil.streamToBuffer>) {
-    return streamUtil.streamToBuffer(...args);
-  }
-  public streamToString(...args: Parameters<typeof streamUtil.streamToString>) {
-    return streamUtil.streamToString(...args);
-  }
-  // #endregion
+  public readonly util = util;
 }

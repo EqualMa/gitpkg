@@ -48,7 +48,7 @@ test("transform path", () =>
       onEntry(a) {
         this.push({
           ...a,
-          headers: this.headersWithNewName(
+          headers: this.util.headersWithNewName(
             a.headers,
             "custom-root/" + a.headers.name,
           ),
