@@ -54,16 +54,16 @@ function apiFromCommitInfo({
       warnType: "suggest-to-use",
       data,
       suggestion: {
-        apiUrl: commit ? repo + "#" + commit : repo,
+        apiUrl: "'" + commit ? repo + "#" + commit : repo + "'",
       },
-      apiUrl: API_BASE + repo + commitPart,
+      apiUrl: "'" + API_BASE + repo + commitPart + "'",
       params: { url: repo, commit },
     };
   } else {
     return {
       type: "success",
       data,
-      apiUrl: API_BASE + repo + "/" + subdir + commitPart,
+      apiUrl: "'" + API_BASE + repo + "/" + subdir + commitPart + "'",
       params: { url: repo + "/" + subdir, commit },
     };
   }
