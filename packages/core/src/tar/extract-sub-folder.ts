@@ -18,7 +18,7 @@ export const extractSubFolder = (subFolder: string, prepend = "") =>
           throw new Error("invalid source file: first entry is not directory");
         }
         ctx.root = name;
-        return true;
+        return this.pass(entry);
       } else if (name.startsWith(ctx.root)) {
         if (headers.pax && headers.pax.path !== name) {
           throw new Error(
@@ -33,10 +33,8 @@ export const extractSubFolder = (subFolder: string, prepend = "") =>
             prepend + name.slice(dir.length),
           );
 
-          this.push({ ...entry, headers: newHeaders });
-        }
-
-        return true;
+          return this.push({ ...entry, headers: newHeaders });
+        } else return this.pass(entry);
       } else {
         throw new Error("invalid source file: multiple dirs in root");
       }

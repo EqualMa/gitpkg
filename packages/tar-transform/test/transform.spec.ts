@@ -4,6 +4,7 @@ import { randomTar } from "./util/random-tar";
 import * as ci from "./util/compare-iterable";
 import "./matcher/tar-entry";
 import { headersWithNewName } from "../src/util/tar-entry-headers";
+import { Readable } from "stream";
 
 import { repeatAsync as _repeatAsync } from "./util/repeat";
 const repeatAsync = _repeatAsync.bind(undefined, 10);
@@ -177,4 +178,53 @@ test("transform with context", () =>
 
     expect(num).toBe(count1);
     expect(num).toBe(count2);
+  }));
+
+test("only specific sub folder", () =>
+  repeatAsync(async () => {
+    function* genTar(count: number): Generator<TarEntry> {
+      for (let i = 0; i < count; i++) {
+        yield {
+          headers: { name: (count % 2 ? "dir1/" : "dir2/") + i + ".data" },
+          content: String(i),
+        };
+      }
+    }
+
+    const tar1 = Readable.from(genTar(10));
+    const tar2 = Readable.from(
+      [...genTar(10)].filter(e => e.headers.name.startsWith("dir1/")),
+    );
+
+    const t = transform<never>({
+      onEntry(a): true {
+        if (a.headers.name.startsWith("dir1/")) {
+          return this.push(a);
+        } else {
+          return this.pass(a);
+        }
+      },
+    });
+
+    tar1.pipe(t);
+
+    await expect(
+      ci.iterablesAreSameSet<TarEntry>({
+        iterables: [t, tar2],
+        compare: async (a, b, idx1, idx2) => {
+          if (!((idx1 === 0 && idx2 === 1) || (idx1 === 1 && idx2 === 0))) {
+            throw new Error("invalid state");
+          }
+
+          const [source, target] = idx1 === 0 ? [a, b] : [b, a];
+
+          try {
+            await expect(target).toBeTarEntry(source);
+            return true;
+          } catch {
+            return false;
+          }
+        },
+      }),
+    ).resolves.toBe(true);
   }));

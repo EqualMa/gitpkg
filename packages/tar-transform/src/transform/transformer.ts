@@ -69,8 +69,16 @@ export class TarEntryTransformer<T = never> {
     }
   }
 
-  public push(entry: TarEntry) {
+  public push(entry: TarEntry): true {
     this.readableStream.push(entry);
+    return true;
+  }
+
+  public pass(entry: TarEntry): true {
+    if (entry.stream) {
+      entry.stream.resume();
+    }
+    return true;
   }
 
   public readonly util = util;
