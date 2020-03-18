@@ -1,0 +1,16 @@
+{
+  "name": "@gitpkg/core",
+  "version": "1.0.0-alpha",
+  "main": "dist/index.js",
+  "types": "dist/index.d.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest",
+    "precommit": "lint-staged",
+    "lint:fix": "eslint --cache --max-warnings 0 --fix",
+    "build": "rimraf dist && tsc -p tsconfig.prod.json --outDir dist --module CommonJS --declaration --sourceMap --declarationMap"
+  },
+  "dependencies": {
+    "tar-transform": "^1.0.0-alpha"
+  }
+}
