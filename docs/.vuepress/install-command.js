@@ -33,7 +33,7 @@ function getInstallCommand(managerName, dependencyType, url) {
   }
 
   if (typeof depTypeArg === "string") {
-    return [command, depTypeArg, url].filter(Boolean).join(" ");
+    return [command, depTypeArg, "'" + url + "'"].filter(Boolean).join(" ");
   } else if (typeof depTypeArg === "function") {
     return depTypeArg({ managerName, dependencyType, url });
   } else if (typeof depTypeArg === "undefined" || depTypeArg === null) {
