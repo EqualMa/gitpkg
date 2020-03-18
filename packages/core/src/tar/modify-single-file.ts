@@ -12,17 +12,19 @@ export const modifySingleFile = (
   >,
 ) =>
   transform({
-    async onEntry(entry) {
+    async onEntry(entry): Promise<true> {
       if (entry.headers.name === filePath) {
         if (this.ctx.matched) {
           throw new Error(`invalid state`);
         }
         this.ctx.matched = true;
         const data = await modify.call(this, entry);
-        this.push({
+        return this.push({
           headers: entry.headers,
           ...data,
         });
+      } else {
+        return this.push(entry);
       }
     },
     onEnd() {
