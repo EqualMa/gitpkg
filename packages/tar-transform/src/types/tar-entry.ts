@@ -29,9 +29,13 @@ export function isTarEntry(e: unknown): e is TarEntry {
       }
 
       return (
+        // only content
         ((typeof content === "string" || content instanceof Buffer) &&
           !stream) ||
-        (!!stream && !content)
+        // only stream
+        (!!stream && !content) ||
+        // directory
+        (!stream && !content && headers.type === "directory")
       );
     }
   }
