@@ -1,3 +1,4 @@
 /.now
 /public
-!/docs/.vuepress
+/packages
+/tools

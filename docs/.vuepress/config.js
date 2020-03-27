@@ -1,8 +1,6 @@
 "use strict";
-/* eslint-env node */
-/* eslint @typescript-eslint/no-var-requires: "off" */
 
-const { SITE_META_FILE } = require("../../scripts/constants");
+const { SITE_META_FILE, PATH_DEST } = require("./scripts/constants");
 const fs = require("fs").promises;
 const promiseGenerated = fs
   .readFile(SITE_META_FILE, "utf-8")
@@ -23,7 +21,7 @@ module.exports = async () => {
         { text: "GitHub", link: "https://github.com/EqualMa/gitpkg" },
       ],
     },
-    dest: "public",
+    dest: PATH_DEST,
     head: [
       ...head,
       ["link", { rel: "manifest", href: "/manifest.webmanifest" }],

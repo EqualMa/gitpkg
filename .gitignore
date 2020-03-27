@@ -1,6 +1,7 @@
 .eslintcache
 .now
 /public
+dist
 
 .DS_Store
 node_modules

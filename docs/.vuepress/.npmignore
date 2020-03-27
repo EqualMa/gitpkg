@@ -1,0 +1,6 @@
+# This file is used to disable
+# https://github.com/mysticatea/eslint-plugin-node/blob/HEAD/docs/rules/no-unpublished-require.md
+# for build scripts
+
+/config.js
+/scripts

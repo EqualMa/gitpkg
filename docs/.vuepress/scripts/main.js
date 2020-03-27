@@ -1,6 +1,4 @@
 "use strict";
-/* eslint-env node */
-/* eslint @typescript-eslint/no-var-requires: "off" */
 
 const fs = require("fs").promises;
 const { generateAssets } = require("./gen-assets");

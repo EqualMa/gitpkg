@@ -1,4 +1,5 @@
 "*.{md,html,css,yml,yaml,json}": "prettier --write"
 ".eslintrc.js": "prettier --write"
-"!(.eslintrc).{js,ts}": "eslint --cache --max-warnings 0 --fix"
+"./!(.eslintrc).{js,ts}": "yarn run lint:fix"
+"api/*.{js,ts}": "yarn run lint:fix"
 "*.{png,jpeg,jpg,gif,svg}": "imagemin-lint-staged"
