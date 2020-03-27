@@ -1,4 +1,5 @@
-import { PkgOptionsParserPlugin, QueryParamsInvalidError } from "../..";
+import { PkgOptionsParserPlugin } from "../../parser";
+import { QueryParamsInvalidError } from "../../error";
 import { PkgUrlAndCommitOptions } from "./plugin";
 import { parseCommitIshInfo } from "./commit-ish";
 

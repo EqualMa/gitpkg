@@ -1,8 +1,8 @@
 import { match } from "path-to-regexp";
-import { PkgOptionsParserPlugin, UrlInvalidError } from "../..";
+import { PkgOptionsParserPlugin } from "../../parser";
 import { PkgUrlAndCommitOptions } from "./plugin";
 import { parseCommitIshInfo } from "./commit-ish";
-import { QueryParamsInvalidError } from "../../error";
+import { QueryParamsInvalidError, UrlInvalidError } from "../../error";
 
 const matchFromUrl = match<MatchResult>(
   "/:url((?:[^?]+/)+[^?]+){\\?:commit([^?&=]+)}?(.+)?",
