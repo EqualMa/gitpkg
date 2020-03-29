@@ -40,7 +40,7 @@ module.exports = async () => {
         "@vuepress/pwa",
         {
           serviceWorker: true,
-          popupComponent: 'my-components/ServiceWorkerPopup',
+          popupComponent: "ServiceWorkerPopup",
           updatePopup: true,
           generateSWConfig: {
             importWorkboxFrom: "local",
