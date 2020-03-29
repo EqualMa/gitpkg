@@ -7,6 +7,12 @@
       <slot name="prepend" size="2.4em" />
     </div>
     <slot />
+    <div
+      v-if="!!hasAppendText"
+      class="bar-text-container bar-text-container-bottom"
+    >
+      <slot name="append-text" />
+    </div>
   </div>
 </template>
 
@@ -15,6 +21,9 @@ export default {
   computed: {
     hasText() {
       return !!this.$slots.text;
+    },
+    hasAppendText() {
+      return !!this.$slots["append-text"];
     },
   },
 };
@@ -36,6 +45,10 @@ $height = $unitSize
     & > .bar-text-container
       width: 100%;
       flex: 1 0 auto;
+
+    & > .bar-text-container-bottom
+      box-sizing border-box
+      padding-top 0.6em
 
   & > *
     min-height $height

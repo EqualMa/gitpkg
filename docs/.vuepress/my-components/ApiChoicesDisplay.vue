@@ -13,6 +13,11 @@
         v-model="selectedIndex"
         name="branch"
       />
+      <template #append-text>
+        You select commit <code>{{ selected.data.commit }}</code
+        >, {{ selected.data.subdir ? "" : "no" }} sub folder
+        <code v-if="selected.data.subdir">{{ selected.data.subdir }}</code>
+      </template>
     </action-bar>
     <single-api-display :api="selected" />
   </div>
