@@ -13,10 +13,10 @@
   },
   "devDependencies": {
     "@vuepress/plugin-google-analytics": "https://gitpkg.now.sh/EqualMa/vuepress/packages/@vuepress/plugin-google-analytics?feat/plugin-google-analytics-import-script-option",
-    "@vuepress/plugin-pwa": "^1.3.1",
+    "@vuepress/plugin-pwa": "^1.4.0",
     "parse5": "^5.1.1",
     "pwa-asset-generator": "^2.2.1",
-    "vuepress": "^1.3.0"
+    "vuepress": "^1.4.0"
   },
   "scripts": {
     "precommit": "lint-staged",
