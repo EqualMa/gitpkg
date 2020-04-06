@@ -46,11 +46,7 @@
     "typescript": "^3.7.5"
   },
   "dependencies": {
-    "@gitpkg/core": "^1.0.0-alpha",
-    "got": "^10.5.5",
-    "gunzip-maybe": "^1.4.1",
-    "path-to-regexp": "^6.1.0",
-    "tar-stream": "^2.1.0"
+    "@gitpkg/core": "^1.0.0-alpha"
   },
   "husky": {
     "hooks": {
