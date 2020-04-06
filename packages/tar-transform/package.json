@@ -27,5 +27,9 @@
     "precommit": "lint-staged",
     "lint:fix": "eslint --cache --max-warnings 0 --fix",
     "build": "rimraf dist && tsc -p tsconfig.prod.json --outDir dist --module CommonJS --declaration --sourceMap --declarationMap"
+  },
+  "dependencies": {
+    "gunzip-maybe": "^1.4.1",
+    "tar-stream": "^2.1.0"
   }
 }

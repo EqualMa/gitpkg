@@ -11,6 +11,8 @@
     "build": "rimraf dist && tsc -p tsconfig.prod.json --outDir dist --module CommonJS --declaration --sourceMap --declarationMap"
   },
   "dependencies": {
+    "got": "^10.5.5",
+    "path-to-regexp": "^6.1.0",
     "tar-transform": "^1.0.0-alpha"
   }
 }
