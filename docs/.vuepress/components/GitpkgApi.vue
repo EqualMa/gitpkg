@@ -29,6 +29,7 @@
         </button>
       </action-bar>
     </div>
+    <custom-scripts v-model="customScripts" />
     <api-choices-display
       v-if="api.type === 'choice'"
       :apiList="api.possibleApis"
@@ -47,25 +48,29 @@ import GithubIcon from "mdi-vue/GithubBox.vue";
 import { apiFromUrl } from "../api-from-url";
 import ApiChoicesDisplay from "../my-components/ApiChoicesDisplay.vue";
 import SingleApiDisplay from "../my-components/SingleApiDisplay.vue";
+import CustomScripts from "../my-components/CustomScripts.vue";
 import ActionBar from "../my-components/ActionBar.vue";
 
 export default {
   components: {
     ApiChoicesDisplay,
     SingleApiDisplay,
+    CustomScripts,
     CloseIcon,
     GithubIcon,
     ActionBar,
   },
   data() {
     return {
+      // github tree url
       url: "",
       placeholder: "https://github.com/<user>/<repo>/tree/<commit>/<subdir>",
+      customScripts: [],
     };
   },
   computed: {
     api() {
-      return apiFromUrl(this.url || this.placeholder);
+      return apiFromUrl(this.url || this.placeholder, this.customScripts);
     },
     preview() {
       return !this.url;

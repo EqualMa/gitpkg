@@ -19,8 +19,10 @@ pkg-border(c)
     &+.with-left
       border-left-width 1px
 
+$trans = all ease 0.2s 0s, box-shadow ease-out 0.4s 0s
+
 *
-  transition all ease 0.2s 0s, box-shadow ease-out 0.4s 0s
+  transition $trans
 
 pkg-focus()
   &:focus
@@ -46,7 +48,7 @@ pkg-hover()
   font-family source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace
   padding 0 1em
   height $unitSize
-  -webkit-appearance none
+  appearance none
 
   pkg-border($textColor)
 
@@ -79,7 +81,7 @@ pkg-hover()
   pkg-hover()
 
   *
-    transition color 0s
+    transition $trans, color 0s
 
   &:active
     pkg-outline()
@@ -100,3 +102,5 @@ pkg-hover()
   &.error
     color $errorColor
     c $errorColor
+
+@import select
