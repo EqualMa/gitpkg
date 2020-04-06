@@ -31,7 +31,8 @@
 
     <action-bar v-if="api.type === 'warn' && api.warnType === 'suggest-to-use'">
       <template #text>
-        It seems that no sub folder is used so you don't need to use GitPkg.
+        It seems that no sub folder or custom scripts are specified so you don't
+        need to use GitPkg.
       </template>
       <button
         class="gitpkg-button"
@@ -46,6 +47,27 @@
         }}
       </button>
     </action-bar>
+    <copy-text v-if="warnForWindows" :text="pkgJsonForWindows">
+      <template #text>
+        <div class="warning" style="margin-bottom: 0.6em;">
+          If you use windows, errors may occur when running
+          <code>npm install ...</code> or <code>yarn add ...</code>
+          because the url contains
+          <code>{{ "&" }}</code>
+          . In such cases, you will have to add
+        </div>
+      </template>
+      <template #append-text>
+        <span class="warning">
+          to "dependencies / devDependencies" of your package.json and run
+          <code>npm install</code> or <code>yarn install</code>
+          manually to install the dependency
+        </span>
+      </template>
+      <template #prepend="{ size }">
+        <alert-icon :width="size" :height="size" class="warning" />
+      </template>
+    </copy-text>
   </div>
 </template>
 
@@ -58,6 +80,7 @@ import { installCommands } from "../install-command";
 
 import GraphOutlineIcon from "mdi-vue/GraphOutline.vue";
 import DeveloperBoardIcon from "mdi-vue/DeveloperBoard.vue";
+import AlertIcon from "mdi-vue/AlertCircleOutline.vue";
 
 export default {
   components: {
@@ -68,6 +91,7 @@ export default {
 
     GraphOutlineIcon,
     DeveloperBoardIcon,
+    AlertIcon,
   },
   props: { api: Object },
   data() {
@@ -77,12 +101,22 @@ export default {
     };
   },
   computed: {
-    commands() {
+    installUrl() {
       const url =
         this.showSuggested && this.api.suggestion
           ? this.api.suggestion.apiUrl
           : this.api.apiUrl;
+      return url;
+    },
+    commands() {
+      const url = this.installUrl;
       return installCommands(url);
+    },
+    warnForWindows() {
+      return this.installUrl.includes("&");
+    },
+    pkgJsonForWindows() {
+      return `"{package-name}": "${this.installUrl}"`;
     },
     dependencyTypes() {
       return this.commands.dependencyTypes.map(d => ({ label: d, value: d }));
@@ -94,4 +128,7 @@ export default {
 <style lang="stylus" scoped>
 .error
   color $errorColor
+
+.warning
+  color $warningColor
 </style>
