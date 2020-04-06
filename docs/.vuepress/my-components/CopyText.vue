@@ -1,5 +1,11 @@
 <template>
   <action-bar>
+    <template #text>
+      <slot name="text" />
+    </template>
+    <template #append-text>
+      <slot name="append-text" />
+    </template>
     <template #prepend="data">
       <slot name="prepend" v-bind="data" />
     </template>
