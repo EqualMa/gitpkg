@@ -27,14 +27,41 @@ const getPrecedence = ({ commit }) => {
 const API_BASE = "https://gitpkg.now.sh/";
 const REGEX_URL = /^https?:\/\/([^/?#]+)\/([^/?#]+)\/([^/?#]+)(?:(?:\/tree\/([^#?]+))|\/)?([#?].*)?$/;
 
-function apiFromCommitInfo({
-  commit,
-  subdir,
-  originalUrl,
-  domain,
-  userName,
-  repoName,
-}) {
+function customScriptToQueryParam(customScript) {
+  const { script, name, type } = customScript;
+
+  const r = /(^\s*&&\s*)|(\s*&&\s*$)/g;
+  let normScript = script.replace(r, "");
+  switch (type) {
+    case "prepend":
+      normScript = normScript + " &&";
+      break;
+    case "append":
+      normScript = "&& " + normScript;
+      break;
+  }
+
+  return (
+    "scripts." + encodeURIComponent(name) + "=" + encodeURIComponent(normScript)
+  );
+}
+
+function queryStringOf(commit, customScripts) {
+  // postinstall=echo%20gitpkg&build=echo%20building
+  const csPart = customScripts
+    .map(cs => customScriptToQueryParam(cs))
+    .join("&");
+
+  if (!csPart) return commit ? "?" + commit : "";
+  else return "?" + (commit || "master") + "&" + csPart;
+}
+
+function apiFromCommitInfo(
+  { commit, subdir, originalUrl, domain, userName, repoName },
+  customScripts,
+) {
+  customScripts = customScripts.filter(cs => cs.name && cs.script);
+
   const repo = userName + "/" + repoName;
 
   const data = {
@@ -46,19 +73,28 @@ function apiFromCommitInfo({
     subdir,
   };
 
-  const commitPart = commit ? "?" + commit : "";
+  const commitPart = queryStringOf(commit, customScripts);
 
   if (!subdir) {
-    return {
-      type: "warn",
-      warnType: "suggest-to-use",
-      data,
-      suggestion: {
-        apiUrl: commit ? repo + "#" + commit : repo,
-      },
-      apiUrl: API_BASE + repo + commitPart,
-      params: { url: repo, commit },
-    };
+    if (customScripts.length === 0) {
+      return {
+        type: "warn",
+        warnType: "suggest-to-use",
+        data,
+        suggestion: {
+          apiUrl: commit ? repo + "#" + commit : repo,
+        },
+        apiUrl: API_BASE + repo + commitPart,
+        params: { url: repo, commit },
+      };
+    } else {
+      return {
+        type: "success",
+        data,
+        apiUrl: API_BASE + repo + commitPart,
+        params: { url: repo, commit },
+      };
+    }
   } else {
     return {
       type: "success",
@@ -69,7 +105,7 @@ function apiFromCommitInfo({
   }
 }
 
-export const apiFromUrl = url => {
+export const apiFromUrl = (url, customScripts) => {
   const match = REGEX_URL.exec(url.trim());
   if (!match) {
     return {
@@ -106,11 +142,14 @@ export const apiFromUrl = url => {
   // no sub folder
   // || commitAndSubDir.indexOf("/") === -1
   if (!commitAndSubDir) {
-    return apiFromCommitInfo({
-      ...data,
-      commit: undefined,
-      subdir: undefined,
-    });
+    return apiFromCommitInfo(
+      {
+        ...data,
+        commit: undefined,
+        subdir: undefined,
+      },
+      customScripts,
+    );
   }
 
   const routes = commitAndSubDir.split("/").filter(Boolean);
@@ -129,7 +168,7 @@ export const apiFromUrl = url => {
       .map(p => {
         const subdir = p.subdir.join("/");
         const commit = p.commit.join("/");
-        return apiFromCommitInfo({ ...data, subdir, commit });
+        return apiFromCommitInfo({ ...data, subdir, commit }, customScripts);
       })
       .map(info => ({
         info,
