@@ -13,6 +13,6 @@
   "dependencies": {
     "got": "^10.5.5",
     "path-to-regexp": "^6.1.0",
-    "tar-transform": "^1.0.0-alpha"
+    "tar-transform": "^1.0.0"
   }
 }
