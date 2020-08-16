@@ -44,7 +44,7 @@
 
 <script>
 import CloseIcon from "mdi-vue/Close.vue";
-import GithubIcon from "mdi-vue/GithubBox.vue";
+import GithubIcon from "mdi-vue/Github.vue";
 import { apiFromUrl } from "../api-from-url";
 import ApiChoicesDisplay from "../my-components/ApiChoicesDisplay.vue";
 import SingleApiDisplay from "../my-components/SingleApiDisplay.vue";
