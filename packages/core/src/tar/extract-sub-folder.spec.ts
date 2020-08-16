@@ -30,11 +30,12 @@ test("extract sub folder", () => {
   ]);
 });
 
-test("throw error when there is multiple files or dirs at root", () => {
+test("throw error when there is multiple files or dirs at root", async () => {
   const read = Readable.from(tarEntries({ root: "" }));
   const t = extractSubFolder("dir1");
-  return Promise.all([
-    expect(pipeline(read, t)).rejects.toThrowError(),
-    getEntries(t),
-  ]);
+
+  const done = expect(pipeline(read, t)).rejects.toThrowError();
+  t.read();
+
+  await done;
 });
