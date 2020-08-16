@@ -27,5 +27,5 @@ test("prepend path", () =>
           ];
         }),
       )
-      .flat(Infinity),
+      .flat(2),
   ));

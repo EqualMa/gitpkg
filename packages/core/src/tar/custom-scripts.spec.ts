@@ -112,5 +112,5 @@ test("add scripts to tar entry stream", () =>
           ];
         });
       })
-      .flat(Infinity),
+      .flat(2),
   ));
