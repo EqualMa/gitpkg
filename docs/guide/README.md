@@ -53,14 +53,14 @@ yarn add https://gitpkg.now.sh/EqualMa/gitpkg-hello/packages/core?feat/md
 ## More Formal API
 
 ```
-https://gitpkg.now.sh/pkg?url=<repo>/<subdir>
-https://gitpkg.now.sh/pkg?url=<repo>/<subdir>&commit=<commit-ish>
+https://gitpkg.now.sh/api/pkg?url=<repo>/<subdir>
+https://gitpkg.now.sh/api/pkg?url=<repo>/<subdir>&commit=<commit-ish>
 ```
 
 Or if you want to make the file format clear:
 
 ```
-https://gitpkg.now.sh/pkg.tgz?url=&commit=
+https://gitpkg.now.sh/api/pkg.tgz?url=&commit=
 ```
 
 ## Custom Scripts
