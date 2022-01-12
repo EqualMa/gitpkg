@@ -7,6 +7,7 @@ const promiseGenerated = fs
   .then(str => JSON.parse(str));
 
 const GA_ID = process.env.GA_ID;
+const AD_CLIENT = process.env.AD_CLIENT;
 
 module.exports = async () => {
   const { head, name, description } = await promiseGenerated;
@@ -33,7 +34,18 @@ module.exports = async () => {
       ["link", { rel: "mask-icon", href: "/favicon.svg", color: "#ffffff" }],
       ["meta", { name: "msapplication-TileImage", content: "/icon.svg" }],
       ["meta", { name: "msapplication-TileColor", content: "#F06292" }],
-    ],
+      AD_CLIENT
+        ? [
+            "script",
+            {
+              "data-ad-client": AD_CLIENT,
+              async: true,
+              src:
+                "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js",
+            },
+          ]
+        : null,
+    ].filter(Boolean),
     plugins: [
       [
         // https://vuepress.vuejs.org/plugin/official/plugin-pwa.html#vuepress-plugin-pwa
