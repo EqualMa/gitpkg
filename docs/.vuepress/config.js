@@ -38,10 +38,11 @@ module.exports = async () => {
         ? [
             "script",
             {
-              "data-ad-client": AD_CLIENT,
-              async: true,
-              src:
-                "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js",
+              async: "async",
+              src: `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(
+                AD_CLIENT,
+              )}`,
+              crossorigin: "anonymous",
             },
           ]
         : null,
