@@ -34,7 +34,6 @@
     "husky": "^4.2.3",
     "imagemin-lint-staged": "^0.4.0",
     "jest": "^25.1.0",
-    "lerna": "^3.20.2",
     "lint-staged": "^10.0.7",
     "now": "^17.0.4",
     "prettier": "1.19.1",
@@ -48,7 +47,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && lerna run precommit"
+      "pre-commit": "lint-staged && npm run precommit --workspaces --if-present"
     }
   }
 }
