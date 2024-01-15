@@ -1,5 +1,3 @@
 "*.{md,html,css,yml,yaml,json}": "prettier --write"
-".eslintrc.js": "prettier --write"
-"./!(.eslintrc).{js,ts}": "npm run lint:fix"
-"api/*.{js,ts}": "npm run lint:fix"
+"*.{js,ts}": "npm run lint"
 "*.{png,jpeg,jpg,gif,svg}": "imagemin-lint-staged"

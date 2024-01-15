@@ -12,6 +12,7 @@ export type PkgOptionsParserPlugin<T, U> = (
   previousOptions: T,
 ) => U;
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export class PkgOptionsParser<T = {}> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private plugins: PkgOptionsParserPlugin<any, any>[] = [];

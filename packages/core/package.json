@@ -6,8 +6,6 @@
   "license": "MIT",
   "scripts": {
     "test": "jest",
-    "precommit": "lint-staged",
-    "lint:fix": "eslint --cache --max-warnings 0 --fix",
     "build": "rimraf dist && tsc -p tsconfig.prod.json --outDir dist --module CommonJS --declaration --sourceMap --declarationMap"
   },
   "dependencies": {
