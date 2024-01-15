@@ -36,8 +36,8 @@ export function parseQueryAsCustomScript(
     type = v.startsWith("&&")
       ? "append"
       : v.endsWith("&&")
-      ? "prepend"
-      : "replace";
+        ? "prepend"
+        : "replace";
     script = trimAndAnd(v);
   } else {
     const s = [];

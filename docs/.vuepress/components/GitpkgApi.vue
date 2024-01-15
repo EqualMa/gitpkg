@@ -37,7 +37,7 @@
     <single-api-display
       v-else
       :api="api"
-      style="min-height: 20em; margin-top: 1.4em;"
+      style="min-height: 20em; margin-top: 1.4em"
     />
   </div>
 </template>

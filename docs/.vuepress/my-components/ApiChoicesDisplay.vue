@@ -1,9 +1,7 @@
 <template>
   <div>
     <action-bar v-if="selectEntries.length > 1">
-      <template #text>
-        Select the correct commit name
-      </template>
+      <template #text> Select the correct commit name </template>
       <template #prepend="{ size }">
         <source-commit-icon :width="size" :height="size" />
       </template>

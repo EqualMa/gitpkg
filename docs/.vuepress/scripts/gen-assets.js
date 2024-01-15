@@ -24,10 +24,7 @@ const GEN_ASSETS_OPTIONS = {
 };
 
 function relative(from, to) {
-  return path
-    .relative(from, to)
-    .split(path.sep)
-    .join("/");
+  return path.relative(from, to).split(path.sep).join("/");
 }
 
 function resetDir(dir) {

@@ -1,17 +1,18 @@
 <template>
   <SWUpdatePopup v-slot="{ enabled, reload, message, buttonText }">
-    <div v-if="enabled" class="gitpkg-sw-update-popup">{{ message }}<br>
+    <div v-if="enabled" class="gitpkg-sw-update-popup">
+      {{ message }}<br />
       <button @click="reload">{{ buttonText }}</button>
     </div>
   </SWUpdatePopup>
 </template>
 
 <script>
-import SWUpdatePopup from '@vuepress/plugin-pwa/lib/SWUpdatePopup.vue'
+import SWUpdatePopup from "@vuepress/plugin-pwa/lib/SWUpdatePopup.vue";
 
 export default {
-  components: { SWUpdatePopup }
-}
+  components: { SWUpdatePopup },
+};
 </script>
 <style lang="stylus" scoped>
 .gitpkg-sw-update-popup
@@ -34,8 +35,7 @@ export default {
   color white
   background-color $accentColor
   box-shadow 0.5em 0.5em 1.5em rgba(0, 0, 0, 0.4)
-  
+
 &:not(:hover):not(:focus)
   box-shadow 0px 0 1px 0 black
-
 </style>

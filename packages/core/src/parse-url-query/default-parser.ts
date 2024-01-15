@@ -12,8 +12,7 @@ const parserFromQuery = getParser(false);
 export const getDefaultParser = (parseFromUrl = false) =>
   parseFromUrl ? parserFromUrl : parserFromQuery;
 
-export type PkgOptions = ReturnType<
-  typeof getDefaultParser
-> extends PkgOptionsParser<infer T>
-  ? T
-  : never;
+export type PkgOptions =
+  ReturnType<typeof getDefaultParser> extends PkgOptionsParser<infer T>
+    ? T
+    : never;
