@@ -1,21 +1,27 @@
 import * as impl from "./prepend-path";
-import { tarEntries, getEntries } from "../../test/util/tar-entry";
-import { Readable, pipeline as _pl } from "stream";
-import { promisify } from "util";
-
-const pipeline = promisify(_pl);
+import {
+  tarEntriesPackAndExtract,
+  decodeAndCollectEntries,
+  packAndExtract,
+  tarEntries,
+  decodeAndCollectHybridEntries,
+} from "../../test/util/tar-entry";
+import { hybridEntriesFromEntries } from "./entry";
 
 test("prepend path", () =>
   Promise.all(
     [undefined, "", "root", "root/"]
       .map(prepend =>
-        ["", "d2/"].map(root => {
-          const r = Readable.from(tarEntries({ root }));
-          const t = impl.prependPath(prepend);
+        ["", "d2/"].map(async root => {
+          const t = impl.prependPathOfEntries(
+            hybridEntriesFromEntries(tarEntriesPackAndExtract({ root })),
+            prepend,
+          );
 
-          return [
-            expect(pipeline(r, t)).resolves.toBeUndefined(),
-            expect(getEntries(t)).resolves.toEqual(
+          const res = await decodeAndCollectHybridEntries(t);
+
+          const expected = await decodeAndCollectEntries(
+            packAndExtract(
               [...tarEntries({ root })].map(e => ({
                 ...e,
                 headers: {
@@ -24,8 +30,10 @@ test("prepend path", () =>
                 },
               })),
             ),
-          ];
+          );
+
+          expect(res).toEqual(expected);
         }),
       )
-      .flat(2),
+      .flat(1) satisfies Promise<void>[],
   ));

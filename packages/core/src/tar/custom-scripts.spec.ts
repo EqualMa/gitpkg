@@ -1,11 +1,10 @@
 import * as impl from "./custom-scripts";
 import { PkgCustomScript } from "../parse-url-query";
-import { TarEntry } from "tar-transform";
-import { tarEntries, getEntries } from "../../test/util/tar-entry";
-import { Readable, pipeline as _pl } from "stream";
-import { promisify } from "util";
-
-const pipeline = promisify(_pl);
+import {
+  decodeAndCollectHybridEntries,
+  tarEntries,
+} from "../../test/util/tar-entry";
+import { DecodedEntry, hybridEntriesFromDecodedEntries } from "./entry";
 
 const ADD_TYPES: PkgCustomScript["type"][] = ["append", "prepend", "replace"];
 
@@ -67,10 +66,10 @@ function* tarEntriesWithPkgJson(
   insertIndex = 0,
   content: string,
   ...args: Parameters<typeof tarEntries>
-): Generator<TarEntry> {
+): Generator<DecodedEntry> {
   let inserted = false;
 
-  const pkgJson: TarEntry = {
+  const pkgJson: DecodedEntry = {
     headers: { name: "package.json" },
     content,
   };
@@ -92,25 +91,29 @@ test("add scripts to tar entry stream", () =>
   Promise.all(
     testCases()
       .map(([scripts, add, res]) => {
-        return [0, 5, -1].map(insertIndex => {
-          const r = Readable.from(
-            tarEntriesWithPkgJson(insertIndex, JSON.stringify({ scripts }), {
+        return [0, 5, -1].map(async insertIndex => {
+          const r = tarEntriesWithPkgJson(
+            insertIndex,
+            JSON.stringify({ scripts }),
+            {
               count: 10,
-            }),
+            },
           );
-          const t = impl.customScripts(add);
+          const t = impl.addCustomScriptsToEntries(
+            hybridEntriesFromDecodedEntries(r),
+            add,
+          );
 
-          return [
-            expect(pipeline(r, t)).resolves.toBeUndefined(),
-            expect(getEntries(t)).resolves.toEqual([
-              ...tarEntriesWithPkgJson(
-                insertIndex,
-                JSON.stringify({ scripts: res }, undefined, 2),
-                { count: 10 },
-              ),
-            ]),
+          const result = await decodeAndCollectHybridEntries(t);
+          const expected = [
+            ...tarEntriesWithPkgJson(
+              insertIndex,
+              JSON.stringify({ scripts: res }, undefined, 2),
+              { count: 10 },
+            ),
           ];
+          expect(result).toEqual(expected);
         });
       })
-      .flat(2),
+      .flat(1) satisfies Promise<void>[],
   ));

@@ -14,8 +14,7 @@
   "scripts": {
     "lint": "eslint --max-warnings 0",
     "test": "jest",
-    "now-build": "yarn run build && yarn run test",
-    "build": "lerna run build",
+    "build": "npm run build --workspaces --if-present",
     "prepare": "husky install"
   },
   "devDependencies": {
