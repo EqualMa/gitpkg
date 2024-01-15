@@ -33,7 +33,6 @@
     "husky": "^4.2.3",
     "imagemin-lint-staged": "^0.4.0",
     "jest": "^25.1.0",
-    "lint-staged": "^10.0.7",
     "now": "^17.0.4",
     "prettier": "3.2.2",
     "rimraf": "^3.0.2",
@@ -42,7 +41,8 @@
     "typescript": "^3.7.5"
   },
   "dependencies": {
-    "@gitpkg/core": "^1.0.0-alpha"
+    "@gitpkg/core": "^1.0.0-alpha",
+    "lint-staged": "^15.2.0"
   },
   "husky": {
     "hooks": {
