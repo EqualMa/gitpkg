@@ -1,10 +1,7 @@
-import * as codes from "./http_status_code";
-import { pipelineToDownloadGitPkg, getDefaultParser } from "@gitpkg/core";
-import * as stream from "stream";
-import { promisify } from "util";
-import { extractInfoFromHttpError } from "./extract-http-error";
-
-const pipeline = promisify(stream.pipeline);
+import * as codes from "./http_status_code.js";
+import { downloadGitPkg, getDefaultParser } from "@gitpkg/core";
+import { extractInfoFromHttpError } from "./extract-http-error.js";
+import got from "got";
 
 export interface PkgToResponseOptions {
   requestUrl: string | undefined;
@@ -39,9 +36,12 @@ export async function pkg({
         .join("-")}.tgz"`,
     );
     response.setHeader("Content-Type", "application/gzip");
-    await pipeline([...pipelineToDownloadGitPkg(pkgOpts), response]);
+
+    await downloadGitPkg(pkgOpts, got.stream, response);
   } catch (err) {
-    console.error(`request ${requestUrl} fail with message: ${err.message}`);
+    const errMsg =
+      (err ? (err as { message?: unknown }).message : "") || "no message";
+    console.error(`request ${requestUrl} fail with message: ${errMsg}`);
     const { code, message } = extractInfoFromHttpError(err, {
       code: codes.INTERNAL_SERVER_ERROR,
       message: `download or parse fail for: ${requestUrl}`,

@@ -1,4 +1,3 @@
-import got from "got";
 import * as tar from "tar-stream";
 import { codeloadUrl } from "./codeload-url";
 import { extractSubFolderOfEntries } from "../tar/extract-sub-folder";
@@ -6,7 +5,7 @@ import { addCustomScriptsToEntries } from "../tar/custom-scripts";
 import { prependPathOfEntries } from "../tar/prepend-path";
 import { PkgOptions } from "../parse-url-query";
 import { createGunzip, createGzip } from "zlib";
-import type { Readable } from "stream";
+import type { Readable, Writable } from "stream";
 import { pipeline } from "stream/promises";
 import {
   HybridEntries,
@@ -37,9 +36,11 @@ function pipelineToPkgTarEntries(pkgOpts: PkgOptions): GenFn[] {
   ).filter(Boolean as unknown as <T>(v: T) => v is Exclude<T, undefined>);
 }
 
-export function pipelineToDownloadGitPkg(
+export function downloadGitPkg(
   pkgOpts: PkgOptions,
-): [Readable, Promise<unknown>] {
+  getReadable: (tgzUrl: string) => Readable,
+  writable: Writable,
+): Promise<unknown> {
   const { commitIshInfo: cii } = pkgOpts;
 
   const tgzUrl = codeloadUrl(`${cii.user}/${cii.repo}`, cii.commit);
@@ -51,12 +52,16 @@ export function pipelineToDownloadGitPkg(
     gen = genFn(gen);
   }
 
-  const pipe = pipeline([got.stream(tgzUrl), createGunzip(), extract]);
+  const pipe = pipeline([getReadable(tgzUrl), createGunzip(), extract]);
 
   const [p, packPromise] = pack(gen);
 
   const gzip = createGzip();
-  const pipeOut = pipeline([p, gzip]);
+  const pipeOut = pipeline(
+    [p, gzip, writable].filter(
+      Boolean as unknown as <T>(v: T | undefined) => v is T,
+    ),
+  );
 
-  return [gzip, Promise.all([pipe, packPromise, pipeOut])];
+  return Promise.all([pipe, packPromise, pipeOut]);
 }

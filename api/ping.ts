@@ -1,10 +1,13 @@
-import { NowRequest, NowResponse } from "@now/node";
+export const config = {
+  runtime: "edge",
+};
 
-export default (request: NowRequest, response: NowResponse) => {
-  const { name = "World" } = request.query;
-  response.status(200).json({
+export default (request: Request) => {
+  const url = new URL(request.url);
+  const name = url.searchParams.get("name") || "World";
+  return Response.json({
     msg: `Hello ${name} at timestamp ${new Date().getTime()}`,
-    query: request.query,
+    query: [...url.searchParams],
     url: request.url,
   });
 };
