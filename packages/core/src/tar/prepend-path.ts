@@ -1,18 +1,21 @@
-import { transform } from "tar-transform";
+import {
+  HybridEntries,
+  HybridEntry,
+  headersOfEntry,
+  modifyHeadersWithNewName,
+} from "./entry";
 
 /**
  *
  * @param prepend should be "" or end with "/". For example: `"package/"`
  */
-export const prependPath = (prepend = "") =>
-  transform({
-    onEntry(entry) {
-      this.push({
-        ...entry,
-        headers: this.util.headersWithNewName(
-          entry.headers,
-          prepend + entry.headers.name,
-        ),
-      });
-    },
-  });
+export async function* prependPathOfEntries(
+  entries: HybridEntries,
+  prepend = "",
+): AsyncGenerator<HybridEntry> {
+  for await (const entry of entries) {
+    const headers = headersOfEntry(entry);
+    modifyHeadersWithNewName(headers, prepend + headers.name);
+    yield entry;
+  }
+}

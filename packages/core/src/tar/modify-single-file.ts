@@ -1,38 +1,39 @@
-import { transform, TarEntry, TarEntryTransformer } from "tar-transform";
+import { HybridEntries, HybridEntry, headersOfEntry } from "./entry";
 
 type MaybePromise<T> = T | Promise<T>;
 
-export const modifySingleFile = (
+/**
+ * `entries` will always be drained no matter if modify throws an error.
+ *
+ * Throws an error when `entries` doesn't contain an entry matching `filePath`.
+ */
+export async function* modifySingleFileOfEntries(
+  entries: HybridEntries,
   filePath: string,
-  modify: (
-    this: TarEntryTransformer<{ matched: boolean }>,
-    entry: TarEntry,
-  ) => MaybePromise<
-    { content: string } | { stream: import("stream").Readable }
-  >,
-) =>
-  transform({
-    async onEntry(entry): Promise<true> {
-      if (entry.headers.name === filePath) {
-        if (this.ctx.matched) {
-          throw new Error(`invalid state`);
-        }
-        this.ctx.matched = true;
-        const data = await modify.call(this, entry);
-        return this.push({
-          headers: entry.headers,
-          ...data,
-        });
-      } else {
-        return this.push(entry);
+  modify: (entry: HybridEntry) => MaybePromise<HybridEntry>,
+): AsyncGenerator<HybridEntry> {
+  let matched = false;
+  let error: Error | undefined;
+
+  for await (const entry of entries) {
+    if (error) continue;
+
+    if (headersOfEntry(entry).name === filePath) {
+      if (matched) {
+        error = new Error(`invalid state`);
+        continue;
       }
-    },
-    onEnd() {
-      if (!this.ctx.matched) {
-        throw new Error(`file not found: ${filePath}`);
-      }
-    },
-    initCtx: {
-      matched: false,
-    },
-  });
+      matched = true;
+      const newEntry = await modify(entry);
+
+      yield newEntry;
+    } else {
+      yield entry;
+    }
+  }
+
+  if (error) throw error;
+  if (!matched) {
+    throw new Error(`file not found: ${filePath}`);
+  }
+}

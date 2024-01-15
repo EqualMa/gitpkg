@@ -1,43 +1,66 @@
-import * as tar from "tar-transform";
+import {
+  HybridEntries,
+  HybridEntry,
+  headersOfEntry as entryHeaders,
+  modifyHeadersWithNewName,
+  resumeEntry,
+} from "./entry";
 
-/**
- *
- * @param subFolder should be "" or end with "/"
- * @param prepend should be "" or end with "/"
- */
-export const extractSubFolder = (subFolder: string, prepend = "") =>
-  tar.transform<{ root: undefined | string }>({
-    onEntry(entry): true {
-      const ctx = this.ctx;
-      const {
-        headers,
-        headers: { name },
-      } = entry;
-      if (ctx.root === undefined) {
-        if (entry.headers.type !== "directory") {
-          throw new Error("invalid source file: first entry is not directory");
-        }
-        ctx.root = name;
-        return this.pass(entry);
-      } else if (name.startsWith(ctx.root)) {
-        if (headers.pax && headers.pax.path !== name) {
-          throw new Error(
-            "source file is not valid due to tarball pax header mismatch",
-          );
-        }
+declare module "tar-stream" {
+  interface Headers {
+    pax?: {
+      comment: string;
+      path: string;
+    };
+  }
+}
 
-        const dir = ctx.root + subFolder;
-        if (name.startsWith(dir) && name.length > dir.length) {
-          const newHeaders = this.util.headersWithNewName(
-            headers,
-            prepend + name.slice(dir.length),
-          );
+export async function* extractSubFolderOfEntries(
+  entries: HybridEntries,
+  subFolder: string,
+  prepend = "",
+): AsyncGenerator<HybridEntry> {
+  const ctx: { root: string | undefined } = { root: undefined };
 
-          return this.push({ ...entry, headers: newHeaders });
-        } else return this.pass(entry);
-      } else {
-        throw new Error("invalid source file: multiple dirs in root");
+  let error: Error | undefined;
+
+  for await (const entry of entries) {
+    if (error) {
+      // the Readable must be consumed, otherwise ERR_STREAM_PREMATURE_CLOSE would be thrown
+      resumeEntry(entry);
+      continue;
+    }
+    const headers = entryHeaders(entry);
+    const name = headers.name;
+    if (ctx.root === undefined) {
+      if (headers.type !== "directory") {
+        error = new Error("invalid source file: first entry is not directory");
+        continue;
       }
-    },
-    initCtx: { root: undefined },
-  });
+      ctx.root = name;
+
+      resumeEntry(entry);
+    } else if (name.startsWith(ctx.root)) {
+      if (headers.pax && headers.pax.path !== name) {
+        error = new Error(
+          "source file is not valid due to tarball pax header mismatch",
+        );
+        continue;
+      }
+
+      const dir = ctx.root + subFolder;
+      if (name.startsWith(dir) && name.length > dir.length) {
+        modifyHeadersWithNewName(headers, prepend + name.slice(dir.length));
+
+        yield entry;
+      } else {
+        resumeEntry(entry);
+      }
+    } else {
+      error = new Error("invalid source file: multiple dirs in root");
+      continue;
+    }
+  }
+
+  if (error) throw error;
+}

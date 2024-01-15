@@ -1,5 +1,11 @@
-import { modifySingleFile } from "./modify-single-file";
+import { modifySingleFileOfEntries } from "./modify-single-file";
 import { PkgCustomScript } from "../parse-url-query";
+import {
+  HybridEntries,
+  HybridEntry,
+  headersOfEntry,
+  readEntryContent,
+} from "./entry";
 
 export function addScriptsToPkgJson(
   pkgJson: Record<string, unknown>,
@@ -27,9 +33,24 @@ export function addScriptsToPkgJson(
   }
 }
 
-export const customScripts = (scripts: PkgCustomScript[]) =>
-  modifySingleFile("package.json", async function (entry) {
-    const pkgJson = JSON.parse(await this.util.stringContentOfTarEntry(entry));
-    addScriptsToPkgJson(pkgJson, scripts);
-    return { content: JSON.stringify(pkgJson, undefined, 2) };
-  });
+export function addCustomScriptsToEntries(
+  entries: HybridEntries,
+  scripts: PkgCustomScript[],
+): AsyncGenerator<HybridEntry> {
+  return modifySingleFileOfEntries(
+    entries,
+    "package.json",
+    async function (entry): Promise<HybridEntry> {
+      const pkgContent = (await readEntryContent(entry)) ?? "";
+      const pkgJson = JSON.parse(pkgContent);
+      addScriptsToPkgJson(pkgJson, scripts);
+      return {
+        kind: "decoded",
+        entry: {
+          headers: headersOfEntry(entry),
+          content: JSON.stringify(pkgJson, undefined, 2),
+        },
+      };
+    },
+  );
+}
