@@ -39,8 +39,8 @@
     "prettier": "3.2.2",
     "rimraf": "^3.0.2",
     "ts-jest": "^25.2.1",
-    "ts-node": "^8.6.2",
-    "typescript": "^3.7.5"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
   },
   "dependencies": {
     "@gitpkg/core": "^1.0.0-alpha"
