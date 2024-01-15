@@ -1,1 +1,1 @@
-"!(.eslintrc).js": "yarn run lint:fix"
+"!(.eslintrc).js": "npm run lint:fix"
