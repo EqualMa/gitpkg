@@ -27,6 +27,6 @@ export const customScriptsPlugin: PkgOptionsParserPlugin<
           return null;
         }
       })
-      .filter((Boolean as unknown) as (v: unknown) => v is PkgCustomScript),
+      .filter(Boolean as unknown as (v: unknown) => v is PkgCustomScript),
   };
 };

@@ -5,7 +5,7 @@
     </template>
     <template #text>
       Custom Scripts
-      <div style="margin-bottom: 1.4em;">
+      <div style="margin-bottom: 1.4em">
         <custom-script-edit
           v-for="(cs, i) in customScripts"
           :key="cs.__key"
@@ -16,7 +16,7 @@
     </template>
     <button
       class="gitpkg-button"
-      style="flex: 1 1 0;"
+      style="flex: 1 1 0"
       type="button"
       @click="addCustomScript"
     >

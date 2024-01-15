@@ -6,9 +6,7 @@
   </div>
   <div v-else>
     <action-bar>
-      <template #text>
-        Select dependency type
-      </template>
+      <template #text> Select dependency type </template>
       <template #prepend="{ size }">
         <developer-board-icon :width="size" :height="size" />
       </template>
@@ -49,7 +47,7 @@
     </action-bar>
     <copy-text v-if="warnForWindows" :text="pkgJsonForWindows">
       <template #text>
-        <div class="warning" style="margin-bottom: 0.6em;">
+        <div class="warning" style="margin-bottom: 0.6em">
           If you use windows, errors may occur when running
           <code>npm install ...</code> or <code>yarn add ...</code>
           because the url contains

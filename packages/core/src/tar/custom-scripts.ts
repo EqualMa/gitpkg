@@ -28,7 +28,7 @@ export function addScriptsToPkgJson(
 }
 
 export const customScripts = (scripts: PkgCustomScript[]) =>
-  modifySingleFile("package.json", async function(entry) {
+  modifySingleFile("package.json", async function (entry) {
     const pkgJson = JSON.parse(await this.util.stringContentOfTarEntry(entry));
     addScriptsToPkgJson(pkgJson, scripts);
     return { content: JSON.stringify(pkgJson, undefined, 2) };

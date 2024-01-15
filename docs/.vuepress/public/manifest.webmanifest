@@ -3,10 +3,7 @@
   "short_name": "GitPkg",
   "description": "Using sub folders of a repo as yarn/npm dependencies made easy",
   "background_color": "white",
-  "categories": [
-    "utilities",
-    "dev"
-  ],
+  "categories": ["utilities", "dev"],
   "display": "standalone",
   "orientation": "portrait-primary",
   "scope": "./",

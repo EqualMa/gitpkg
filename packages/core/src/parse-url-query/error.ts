@@ -5,7 +5,10 @@ export class UrlInvalidError extends Error {
 }
 
 export class QueryParamsInvalidError extends Error {
-  constructor(public readonly key: string | string[], msg?: string) {
+  constructor(
+    public readonly key: string | string[],
+    msg?: string,
+  ) {
     super(msg);
   }
 }

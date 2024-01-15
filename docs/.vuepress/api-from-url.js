@@ -25,7 +25,8 @@ const getPrecedence = ({ commit }) => {
 };
 
 const API_BASE = "https://gitpkg.now.sh/";
-const REGEX_URL = /^https?:\/\/([^/?#]+)\/([^/?#]+)\/([^/?#]+)(?:(?:\/tree\/([^#?]+))|\/)?([#?].*)?$/;
+const REGEX_URL =
+  /^https?:\/\/([^/?#]+)\/([^/?#]+)\/([^/?#]+)(?:(?:\/tree\/([^#?]+))|\/)?([#?].*)?$/;
 
 function customScriptToQueryParam(customScript) {
   const { script, name, type } = customScript;
