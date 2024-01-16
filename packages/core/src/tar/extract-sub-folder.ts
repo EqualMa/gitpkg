@@ -6,15 +6,6 @@ import {
   resumeEntry,
 } from "./entry";
 
-declare module "tar-stream" {
-  interface Headers {
-    pax?: {
-      comment: string;
-      path: string;
-    };
-  }
-}
-
 export async function* extractSubFolderOfEntries(
   entries: HybridEntries,
   subFolder: string,

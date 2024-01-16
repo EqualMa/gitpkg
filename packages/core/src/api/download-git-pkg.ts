@@ -3,16 +3,18 @@ import { codeloadUrl } from "./codeload-url";
 import { extractSubFolderOfEntries } from "../tar/extract-sub-folder";
 import { addCustomScriptsToEntries } from "../tar/custom-scripts";
 import { prependPathOfEntries } from "../tar/prepend-path";
-import { PkgOptions } from "../parse-url-query";
-import { createGunzip, createGzip } from "zlib";
-import type { Readable, Writable } from "stream";
-import { pipeline } from "stream/promises";
+import type { CommitIshInfo, PkgOptions } from "../parse-url-query";
 import {
   HybridEntries,
   HybridEntry,
   hybridEntriesFromEntries,
 } from "../tar/entry";
 import { pack } from "../tar/pack";
+import {
+  DecompressionStream,
+  CompressionStream,
+} from "@gitpkg/edge-polyfill/compression-streams";
+import { readableToWeb, writableToWeb } from "@gitpkg/edge-polyfill/web-stream";
 
 export type PipelineItem =
   | NodeJS.ReadableStream
@@ -36,15 +38,15 @@ function pipelineToPkgTarEntries(pkgOpts: PkgOptions): GenFn[] {
   ).filter(Boolean as unknown as <T>(v: T) => v is Exclude<T, undefined>);
 }
 
+export function getTgzUrl(cii: CommitIshInfo): string {
+  return codeloadUrl(`${cii.user}/${cii.repo}`, cii.commit);
+}
+
 export function downloadGitPkg(
   pkgOpts: PkgOptions,
-  getReadable: (tgzUrl: string) => Readable,
-  writable: Writable,
+  readable: ReadableStream,
+  writable: WritableStream,
 ): Promise<unknown> {
-  const { commitIshInfo: cii } = pkgOpts;
-
-  const tgzUrl = codeloadUrl(`${cii.user}/${cii.repo}`, cii.commit);
-
   const extract = tar.extract();
 
   let gen: AsyncGenerator<HybridEntry> = hybridEntriesFromEntries(extract);
@@ -52,16 +54,13 @@ export function downloadGitPkg(
     gen = genFn(gen);
   }
 
-  const pipe = pipeline([getReadable(tgzUrl), createGunzip(), extract]);
-
+  const pipe = readable
+    .pipeThrough(new DecompressionStream("gzip"))
+    .pipeTo(writableToWeb(extract) satisfies WritableStream);
   const [p, packPromise] = pack(gen);
 
-  const gzip = createGzip();
-  const pipeOut = pipeline(
-    [p, gzip, writable].filter(
-      Boolean as unknown as <T>(v: T | undefined) => v is T,
-    ),
-  );
-
+  const pipeOut = (readableToWeb(p) satisfies ReadableStream)
+    .pipeThrough(new CompressionStream("gzip"))
+    .pipeTo(writable);
   return Promise.all([pipe, packPromise, pipeOut]);
 }

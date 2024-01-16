@@ -1,21 +1,99 @@
 import * as codes from "./http_status_code.js";
-import { downloadGitPkg, getDefaultParser } from "@gitpkg/core";
-import { extractInfoFromHttpError } from "./extract-http-error.js";
-import got from "got";
+import { downloadGitPkg, getTgzUrl } from "@gitpkg/core/api/download-git-pkg";
+import { Buffer } from "buffer";
+import { getDefaultParser } from "@gitpkg/core/parse-url-query";
+
+export type RequestQuery = {
+  [key: string]: string | string[];
+};
+
+function paramsToQuery(params: URLSearchParams): RequestQuery {
+  const res: RequestQuery = {};
+
+  for (const [name, value] of params) {
+    const oldValue: string | string[] | undefined = res[name];
+    if (typeof oldValue === "string") {
+      res[name] = [oldValue, value];
+    } else if (Array.isArray(oldValue)) {
+      oldValue.push(value);
+    } else {
+      res[name] = value;
+    }
+  }
+
+  return res;
+}
+
+/**
+ *
+ * @param url `request.url`, the full url
+ * @returns `requestUrl` is `pathname + search`, without hash
+ */
+export function parseUrl(url: string): {
+  query: RequestQuery;
+  requestUrl: string;
+} {
+  const u = new URL(url);
+
+  const requestUrl = u.pathname + u.search;
+
+  return {
+    query: paramsToQuery(u.searchParams),
+    requestUrl,
+  };
+}
+
+function chainReadableStreams(rs: ReadableStream[]): ReadableStream {
+  const { readable, writable } = new TransformStream();
+
+  rs.reduce(
+    (a, res, i, arr) =>
+      a.then(() =>
+        res.pipeTo(writable, { preventClose: i + 1 !== arr.length }),
+      ),
+    Promise.resolve(),
+  );
+
+  return readable;
+}
 
 export interface PkgToResponseOptions {
   requestUrl: string | undefined;
-  query: import("@now/node").NowRequestQuery;
+  query: RequestQuery;
   parseFromUrl: boolean;
-  response: import("@now/node").NowResponse;
+}
+
+class ResponseError extends Error {
+  status: number;
+  body: ReadableStream<Uint8Array> | null | undefined;
+
+  constructor({
+    status = codes.INTERNAL_SERVER_ERROR,
+    message,
+    body,
+  }: {
+    status?: number;
+    message: string;
+    body?: ReadableStream<Uint8Array> | null;
+  }) {
+    super(message);
+
+    this.status = status;
+    this.body = body;
+  }
+
+  toResponse(): Response {
+    const { body, message, status } = this;
+    return new Response(body || message, { status });
+  }
 }
 
 export async function pkg({
+  /** Url path starting with "/" */
   requestUrl,
   query,
   parseFromUrl,
-  response,
-}: PkgToResponseOptions) {
+}: PkgToResponseOptions): Promise<[Response, Promise<unknown> | null]> {
   try {
     const pkgOpts = getDefaultParser(parseFromUrl).parse(
       requestUrl || "",
@@ -23,31 +101,74 @@ export async function pkg({
     );
     const { commitIshInfo: cii } = pkgOpts;
 
-    response.status(200);
-    response.setHeader(
-      "Content-Disposition",
-      `attachment; filename="${[
-        cii.user,
-        cii.repo,
-        ...(cii.subdirs || []),
-        cii.commit,
-      ]
-        .filter(Boolean)
-        .join("-")}.tgz"`,
-    );
-    response.setHeader("Content-Type", "application/gzip");
+    const tgzUrl = getTgzUrl(cii);
 
-    await downloadGitPkg(pkgOpts, got.stream, response);
-  } catch (err) {
-    const errMsg =
-      (err ? (err as { message?: unknown }).message : "") || "no message";
-    console.error(`request ${requestUrl} fail with message: ${errMsg}`);
-    const { code, message } = extractInfoFromHttpError(err, {
-      code: codes.INTERNAL_SERVER_ERROR,
-      message: `download or parse fail for: ${requestUrl}`,
+    const tgzResp = await fetch(tgzUrl);
+
+    if (!tgzResp.ok) {
+      throw new ResponseError({
+        message: `The response errored: ${tgzUrl}`,
+        status: tgzResp.status,
+        body:
+          tgzResp.status === 404
+            ? tgzResp.body
+              ? chainReadableStreams([
+                  new Blob([
+                    Buffer.from(
+                      `${tgzUrl} Not Found.\nThe original response body is:\n`,
+                    ),
+                  ]).stream(),
+                  tgzResp.body,
+                ])
+              : new Blob([Buffer.from(`${tgzUrl} Not Found.`)]).stream()
+            : tgzResp.body,
+      });
+    }
+
+    const body = tgzResp.body;
+
+    if (!body) {
+      throw new ResponseError({
+        message: `The response body is empty: ${tgzUrl}`,
+      });
+    }
+
+    const transform = new TransformStream();
+    const resp = new Response(transform.readable, {
+      status: 200,
+      headers: [
+        [
+          "Content-Disposition",
+          `attachment; filename="${[
+            cii.user,
+            cii.repo,
+            ...(cii.subdirs || []),
+            cii.commit,
+          ]
+            .filter(Boolean)
+            .join("-")}.tgz"`,
+        ],
+        ["Content-Type", "application/gzip"],
+      ],
     });
-    response.removeHeader("Content-Disposition");
-    response.removeHeader("Content-Type");
-    response.status(code).json(message);
+
+    return [resp, downloadGitPkg(pkgOpts, body, transform.writable)];
+  } catch (err) {
+    {
+      const errMsg = (err ? (err as Error).message : "") || "no message";
+      console.error(`request ${requestUrl} failed: ${errMsg}`);
+      console.error(err ? (err as Error).stack : "");
+    }
+
+    let errResp: Response;
+    if (err instanceof ResponseError) {
+      errResp = err.toResponse();
+    } else {
+      errResp = Response.json(`Failed to download: ${requestUrl}`, {
+        status: codes.INTERNAL_SERVER_ERROR,
+      });
+    }
+
+    return [errResp, null];
   }
 }
