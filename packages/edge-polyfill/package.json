@@ -1,0 +1,17 @@
+{
+  "name": "@gitpkg/edge-polyfill",
+  "version": "1.0.0-alpha.1",
+  "description": "",
+  "exports": {
+    "./*": "./dist/*.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "compression-streams-polyfill": "^0.1.6",
+    "readable-stream": "^4.5.2"
+  }
+}
