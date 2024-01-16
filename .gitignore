@@ -1,9 +1,11 @@
 /coverage
 
+*.tsbuildinfo
 .eslintcache
 .now
 /public
-dist
+dist/
+dist-test/
 
 .DS_Store
 node_modules

@@ -1,14 +1,16 @@
 {
   "name": "@gitpkg/core",
   "version": "1.0.0-alpha",
-  "main": "dist/index.js",
-  "types": "dist/index.d.js",
+  "exports": {
+    "./api/*": "./dist/api/*.js",
+    "./parse-url-query": "./dist/parse-url-query/index.js"
+  },
   "license": "MIT",
   "scripts": {
-    "test": "jest",
-    "build": "rimraf dist && tsc -p tsconfig.prod.json --outDir dist --declaration --sourceMap --declarationMap"
+    "test": "jest"
   },
   "dependencies": {
+    "@gitpkg/edge-polyfill": "^1.0.0-alpha.1",
     "@types/tar-stream": "^3.1.3",
     "path-to-regexp": "^6.1.0",
     "tar-stream": "^3.1.6"
