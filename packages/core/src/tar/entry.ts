@@ -1,6 +1,15 @@
 import type * as tar from "tar-stream";
 import { StringDecoder } from "string_decoder";
 
+declare module "tar-stream" {
+  interface Headers {
+    pax?: {
+      comment: string;
+      path: string;
+    };
+  }
+}
+
 export interface DecodedEntry {
   headers: tar.Headers;
   content?: string;

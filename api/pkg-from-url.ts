@@ -1,11 +1,14 @@
-import { NowRequest, NowResponse } from "@now/node";
-import { pkg } from "./_utils/pkg.js";
+import { parseUrl, pkg } from "./_utils/pkg.js";
 
-export default async (request: NowRequest, response: NowResponse) => {
-  await pkg({
-    query: request.query,
-    requestUrl: request.url,
+export const config = {
+  runtime: "edge",
+};
+
+export default async (request: Request) => {
+  const [resp, _pro] = await pkg({
+    ...parseUrl(request.url),
     parseFromUrl: true,
-    response,
   });
+
+  return resp;
 };
