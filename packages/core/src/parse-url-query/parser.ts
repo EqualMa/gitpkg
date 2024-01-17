@@ -1,3 +1,5 @@
+import type { RequestQuery } from "./query";
+
 type Overwrite<T, U> = {
   [K in keyof T | keyof U]: K extends keyof U
     ? U[K]
@@ -8,7 +10,7 @@ type Overwrite<T, U> = {
 
 export type PkgOptionsParserPlugin<T, U> = (
   url: string,
-  query: import("@now/node").NowRequestQuery,
+  query: RequestQuery,
   previousOptions: T,
 ) => U;
 
@@ -25,10 +27,7 @@ export class PkgOptionsParser<T = {}> {
     return p;
   }
 
-  public parse(
-    requestUrl: string,
-    query: import("@now/node").NowRequestQuery,
-  ): T {
+  public parse(requestUrl: string, query: RequestQuery): T {
     return this.plugins.reduce<unknown>((options, plugin) => {
       return {
         ...(options as object),

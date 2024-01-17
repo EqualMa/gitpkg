@@ -1,3 +1,5 @@
+export * from "./query";
+
 export * from "./parser";
 export * from "./default-parser";
 

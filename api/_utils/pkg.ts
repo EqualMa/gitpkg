@@ -1,11 +1,10 @@
 import * as codes from "./http_status_code.js";
 import { downloadGitPkg, getTgzUrl } from "@gitpkg/core/api/download-git-pkg";
 import { Buffer } from "buffer";
-import { getDefaultParser } from "@gitpkg/core/parse-url-query";
-
-export type RequestQuery = {
-  [key: string]: string | string[];
-};
+import {
+  getDefaultParser,
+  type RequestQuery,
+} from "@gitpkg/core/parse-url-query";
 
 function paramsToQuery(params: URLSearchParams): RequestQuery {
   const res: RequestQuery = {};

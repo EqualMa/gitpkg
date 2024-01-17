@@ -1,5 +1,6 @@
 {
   "extends": "../../../tsconfig.base.json",
+  "references": [{ "path": "../../edge-polyfill" }],
   "compilerOptions": {
     "outDir": "../dist",
     "composite": true
