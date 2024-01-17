@@ -1,7 +1,8 @@
 import { PkgUrlAndCommitOptions } from "./plugins";
+import type { RequestQuery } from "./query";
 
 export function getValueOfQuery(
-  query: import("@now/node").NowRequestQuery,
+  query: RequestQuery,
   key: string,
   options: PkgUrlAndCommitOptions,
 ): undefined | string | string[] {
