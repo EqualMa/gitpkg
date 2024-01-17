@@ -34,7 +34,13 @@ export function readableToWeb(
 export function writableToWeb(sx: import("stream").Writable): WritableStream {
   return new WritableStream({
     write(chunk) {
-      chunk = Buffer.from(chunk);
+      // `import("stream").Writable` should accept Uint8Array,
+      // but actually the stream might be from import("streamx") or import("readable-stream").
+      // When developing, I found the stream doesn't work as expected when `Uint8Array` is written.
+      // Thus, convert it to `Buffer`.
+      if (chunk instanceof Uint8Array) {
+        chunk = Buffer.from(chunk);
+      }
       return new Promise<void>((resolve, reject) => {
         if (
           !sx.write(chunk, error => {
