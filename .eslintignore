@@ -2,3 +2,5 @@
 /public
 dist/
 dist-test/
+.docusaurus
+/website/build/
