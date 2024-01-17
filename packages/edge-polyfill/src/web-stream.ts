@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { Buffer } from "buffer";
 
 /**
@@ -11,6 +12,7 @@ export function readableToWeb(
 
   return new ReadableStream({
     async pull(controller) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const { value, done } = await source.next();
 
       if (done) {
@@ -44,7 +46,8 @@ export function writableToWeb(sx: import("stream").Writable): WritableStream {
         ) {
           sx.once("drain", resolve);
         } else {
-          Promise.resolve().then(resolve);
+          // process.nextTick(resolve)
+          void Promise.resolve().then(resolve);
         }
       });
     },

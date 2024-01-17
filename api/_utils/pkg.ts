@@ -26,10 +26,13 @@ export function parseUrl(url: string): {
   };
 }
 
+/**
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/TransformStream#chaining_multiple_readablestreams_together
+ */
 function chainReadableStreams(rs: ReadableStream[]): ReadableStream {
   const { readable, writable } = new TransformStream();
 
-  rs.reduce(
+  void rs.reduce(
     (a, res, i, arr) =>
       a.then(() =>
         res.pipeTo(writable, { preventClose: i + 1 !== arr.length }),
