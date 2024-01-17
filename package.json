@@ -16,6 +16,7 @@
     "lint": "eslint --max-warnings 0",
     "test": "jest",
     "build": "tsc -b",
+    "clean": "tsc -b --clean",
     "prepare": "husky install"
   },
   "devDependencies": {
