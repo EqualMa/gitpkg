@@ -1,3 +1,4 @@
+/** @type {import("eslint").ESLint.ConfigData} */
 module.exports = {
   root: true,
   env: {
@@ -7,8 +8,9 @@ module.exports = {
   },
   extends: [
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended-type-checked",
     "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
+    "plugin:@typescript-eslint/recommended-type-checked",
     "plugin:prettier/recommended",
   ],
   overrides: [
@@ -31,5 +33,11 @@ module.exports = {
   plugins: ["@typescript-eslint", "react"],
   rules: {
     "@typescript-eslint/no-unused-vars": ["error", { varsIgnorePattern: "^_" }],
+    "@typescript-eslint/no-var-requires": [
+      "error",
+      {
+        allow: ["\\.svg$"],
+      },
+    ],
   },
 };
