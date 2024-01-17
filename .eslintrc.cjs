@@ -7,7 +7,7 @@ module.exports = {
   },
   extends: [
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-type-checked",
     "plugin:react/recommended",
     "plugin:prettier/recommended",
   ],
@@ -26,6 +26,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: "latest",
     sourceType: "module",
+    EXPERIMENTAL_useProjectService: true,
   },
   plugins: ["@typescript-eslint", "react"],
   rules: {

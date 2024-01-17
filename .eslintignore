@@ -1,3 +1,4 @@
-/.now
+/coverage
 /public
 dist/
+dist-test/

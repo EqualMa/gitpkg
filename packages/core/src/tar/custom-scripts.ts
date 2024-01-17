@@ -29,7 +29,7 @@ export function addScriptsToPkgJson(
       const original = pkgScripts[name];
       const str = original ? original + " && " : "";
       pkgScripts[name] = str + script;
-    } else throw new Error("prop type is invalid: " + type);
+    } else throw new Error("prop type is invalid: " + String(type));
   }
 }
 
@@ -42,7 +42,7 @@ export function addCustomScriptsToEntries(
     "package.json",
     async function (entry): Promise<HybridEntry> {
       const pkgContent = (await readEntryContent(entry)) ?? "";
-      const pkgJson = JSON.parse(pkgContent);
+      const pkgJson = JSON.parse(pkgContent) as Record<string, unknown>;
       addScriptsToPkgJson(pkgJson, scripts);
       return {
         kind: "decoded",
