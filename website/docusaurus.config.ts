@@ -2,6 +2,10 @@ import { themes as prismThemes } from "prism-react-renderer";
 import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
 
+// TODO: ROUTE: /guide
+// TODO: DOCS ABOUT ROUTE
+// TODO: SMALL SCREEN  NAV LINK DO NOT COLLAPSE
+
 const GITHUB = "https://github.com/EqualMa/gitpkg";
 
 const config: Config = {
@@ -31,6 +35,8 @@ const config: Config = {
     locales: ["en"],
   },
 
+  plugins: ["docusaurus-plugin-sass"],
+
   presets: [
     [
       "classic",
@@ -44,7 +50,11 @@ const config: Config = {
         },
         blog: false,
         theme: {
-          customCss: "./src/css/custom.css",
+          customCss: [
+            //
+            "./src/css/custom.css",
+            "./src/css/custom.scss",
+          ],
         },
       } satisfies Preset.Options,
     ],

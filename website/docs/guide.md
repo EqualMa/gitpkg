@@ -17,7 +17,7 @@
   https://gitpkg.now.sh/<repo>/<subdir>?<commit-ish>
   ```
 
-  ::: tip
+  :::tip
 
   Usually, a commit-ish can be a `branch`, a `commit`, or a `tag`, etc.
 
@@ -98,11 +98,11 @@ If you don't want to use the UI, you can setup the url by your self
   https://gitpkg.now.sh/pkg?url=<repo>/<subdir>&commit=<commit-ish>&scripts.<script-name>=<script-content>
   ```
 
-::: warning
+:::warning
 `<script-name>` and `<script-content>` must NOT contain special chars including `& ? =`. You can use `encodeURIComponent` to encode them before putting them in the query param.
 :::
 
-::: warning
+:::warning
 If you use windows, then using `yarn install <url>` or `npm install <url>` if `<url>` contains `&` may lead to errors.
 
 In such cases, you have to manually add `"<package-name>": "<url>"` to the `dependency` or `devDependency` of `package.json`.

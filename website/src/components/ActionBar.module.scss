@@ -1,0 +1,37 @@
+@use "sass:math";
+@use "../css/_vars";
+
+$unitSize: vars.$unitSize;
+$height: $unitSize;
+
+.bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1.4em;
+
+  &:global {
+    &.with-text {
+      flex-wrap: wrap;
+    }
+    &.with-text > .bar-text-container {
+      width: 100%;
+      flex: 1 0 auto;
+    }
+    &.with-text > .bar-text-container-bottom {
+      box-sizing: border-box;
+      padding-top: 0.6em;
+    }
+    & > * {
+      min-height: $height;
+    }
+    & > .bar-prepend {
+      width: $unitSize;
+      margin: 0 math.div($unitSize, 8);
+      flex: 0 0 auto;
+      min-height: 0;
+      line-height: 1;
+    }
+  }
+}

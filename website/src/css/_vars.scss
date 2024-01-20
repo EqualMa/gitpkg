@@ -1,0 +1,59 @@
+$unitSize: 2.4em;
+
+$successColor: green;
+$primaryColor: #2196f3;
+$successColor: #42b983;
+$infoColor: #42a5f5;
+$errorColor: #c30000;
+$warningColor: darken(#ffe564, 35%);
+
+$accentColor: #f06292;
+$textColor: #2c3e50;
+$codeBgColor: #282c34;
+
+@mixin pkg-outline() {
+  border-color: transparent;
+  outline-style: dashed;
+  outline-offset: -3px;
+  outline-width: 3px;
+}
+
+@mixin pkg-border($c, $w: 1px) {
+  border-style: solid;
+  border-width: $w;
+  border-color: $c;
+  border-radius: 0;
+
+  &.with-left {
+    border-left-width: 0px;
+  }
+  &.with-right {
+    border-right-width: 0px;
+    & + .with-left {
+      border-left-width: 1px;
+    }
+  }
+}
+
+$trans:
+  all ease 0.2s 0s,
+  box-shadow ease-out 0.4s 0s;
+
+@mixin pkg-focus() {
+  &:focus {
+    box-shadow: 0.5em 0.5em 1em #2c3e506e;
+    @include pkg-outline;
+    outline-color: $primaryColor;
+    outline-style: solid;
+    outline-width: 1px;
+    outline-offset: -1px;
+  }
+}
+
+@mixin pkg-hover() {
+  &:hover {
+    @include pkg-outline;
+    box-shadow: 0.5em 0.5em 2em #2c3e506e;
+    outline-color: $accentColor;
+  }
+}
