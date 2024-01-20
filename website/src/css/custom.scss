@@ -1,0 +1,189 @@
+@use "sass:color";
+
+@use "./_vars" as *;
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1.15;
+  margin: 0;
+}
+
+* {
+  transition: $trans;
+}
+
+.gitpkg-input {
+  @mixin c($color) {
+    @include pkg-outline();
+    outline-color: $color;
+  }
+  box-sizing: border-box;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+  padding: 0 1em;
+  height: $unitSize;
+  appearance: none;
+
+  @include pkg-border($textColor);
+
+  @include pkg-focus;
+  @include pkg-hover;
+
+  &.success {
+    @include c($successColor);
+  }
+
+  &.error {
+    @include c($errorColor);
+  }
+
+  &::selection {
+    background-color: $codeBgColor;
+    color: lighten($accentColor, 10);
+  }
+}
+
+.gitpkg-button {
+  @mixin c($color) {
+    @include pkg-outline();
+    outline-color: $color;
+  }
+  $bg: rgb(240, 240, 240);
+
+  background-color: $bg;
+  text-align: center;
+  cursor: pointer;
+
+  @include pkg-border($textColor);
+
+  @include pkg-focus;
+  @include pkg-hover;
+
+  * {
+    transition:
+      $trans,
+      color 0s;
+  }
+
+  &:active {
+    @include pkg-outline;
+    @include c(darken($accentColor, 25%));
+    background-color: darken($bg, 10%);
+  }
+  &.icon {
+    width: $unitSize;
+    height: $unitSize;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &.success {
+    color: $successColor;
+    @include c($successColor);
+  }
+  &.error {
+    color: $errorColor;
+    @include c($errorColor);
+  }
+}
+
+.gitpkg-select.v-select {
+  padding: 0;
+  position: relative;
+  height: $unitSize;
+
+  box-sizing: border-box;
+  & * {
+    box-sizing: border-box;
+  }
+
+  .vs__dropdown-toggle {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: space-between;
+
+    @include pkg-border($textColor);
+    @include pkg-focus;
+    @include pkg-hover;
+
+    .vs__actions {
+      display: flex;
+
+      > * {
+        @extend .gitpkg-button;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        height: 100%;
+        border: none;
+      }
+    }
+    .vs__selected-options {
+      display: flex;
+
+      padding: 0 1em;
+
+      .vs__selected {
+        flex: 0 1 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .vs__search {
+        flex: 0 1 auto;
+        display: block;
+        width: 0;
+        appearance: none;
+        border: none;
+        outline: none;
+      }
+    }
+  }
+  &.vs--open .vs__open-indicator > * {
+    transform: rotate(180deg) scale(1);
+  }
+  .vs__dropdown-menu {
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-y: auto;
+    border-top-style: none;
+    text-align: left;
+    list-style: none;
+    background: white;
+  }
+  .vs__dropdown-option {
+    @extend .gitpkg-button;
+    border-width: 0;
+    overflow: visible;
+    &.vs__dropdown-option--selected {
+      background-color: $accentColor;
+      color: white;
+    }
+    &.vs__dropdown-option--highlight {
+      @include pkg-hover;
+    }
+  }
+  &.relaxed .vs__dropdown-toggle {
+    border: 0;
+
+    &:not(:hover):not(:focus) {
+      box-shadow: 0px 0 1px 0 black;
+    }
+  }
+}

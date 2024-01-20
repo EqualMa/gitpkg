@@ -1,0 +1,32 @@
+@use "../css/vars" as *;
+
+.buttonsWrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.groupButtonEntry {
+  user-select: none;
+  padding: 0 0.2em;
+  min-width: $unitSize;
+  text-align: center;
+  border: 0;
+  flex: 1 1 auto;
+
+  &:not(:hover):not(:focus) {
+    box-shadow: 0px 0 1px 0 #000;
+  }
+  &:global(.checked) {
+    background-color: $accentColor; /* TODO: */
+    color: #fff;
+  }
+  &:before {
+    content: "";
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+  }
+  & > input[type="radio"] {
+    display: none;
+  }
+}

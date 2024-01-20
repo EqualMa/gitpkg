@@ -7,9 +7,9 @@ const branchNamePrecedence = [
   "bug/",
   "feat/",
   "fix/",
-];
+] satisfies (string | ((branchName: string) => boolean))[];
 
-const getPrecedence = ({ commit }) => {
+const getPrecedence = ({ commit }: { commit: string; subdir: string }) => {
   let i = branchNamePrecedence.findIndex(v =>
     typeof v === "function" ? v(commit) : commit === v,
   );
@@ -28,7 +28,15 @@ const API_BASE = "https://gitpkg.now.sh/";
 const REGEX_URL =
   /^https?:\/\/([^/?#]+)\/([^/?#]+)\/([^/?#]+)(?:(?:\/tree\/([^#?]+))|\/)?([#?].*)?$/;
 
-function customScriptToQueryParam(customScript) {
+type CustomScriptType = "replace" | "prepend" | "append";
+
+interface CustomScript {
+  script: string;
+  name: string;
+  type: CustomScriptType;
+}
+
+function customScriptToQueryParam(customScript: CustomScript) {
   const { script, name, type } = customScript;
 
   const r = /(^\s*&&\s*)|(\s*&&\s*$)/g;
@@ -40,6 +48,10 @@ function customScriptToQueryParam(customScript) {
     case "append":
       normScript = "&& " + normScript;
       break;
+    case "replace":
+      break;
+    default:
+      throw new Error(`invalid custom script type: ${normScript}`);
   }
 
   return (
@@ -47,7 +59,10 @@ function customScriptToQueryParam(customScript) {
   );
 }
 
-function queryStringOf(commit, customScripts) {
+function queryStringOf(
+  commit: string | undefined,
+  customScripts: CustomScript[],
+) {
   // postinstall=echo%20gitpkg&build=echo%20building
   const csPart = customScripts
     .map(cs => customScriptToQueryParam(cs))
@@ -57,22 +72,22 @@ function queryStringOf(commit, customScripts) {
   else return "?" + (commit || "master") + "&" + csPart;
 }
 
-function apiFromCommitInfo(
-  { commit, subdir, originalUrl, domain, userName, repoName },
-  customScripts,
-) {
-  customScripts = customScripts.filter(cs => cs.name && cs.script);
+interface CommitInfo extends ApiDataBase {
+  commit?: string;
+  subdir?: string;
+}
+
+function apiFromCommitInfo<T extends CommitInfo>(
+  data: T,
+  customScriptsInput: Partial<CustomScript>[],
+): Typed<ApiTypes, "warn" | "success"> & { data: T } {
+  const { commit, subdir, userName, repoName } = data;
+
+  const customScripts: CustomScript[] = customScriptsInput.filter(
+    (cs): cs is CustomScript => Boolean(cs.name && cs.script),
+  );
 
   const repo = userName + "/" + repoName;
-
-  const data = {
-    originalUrl,
-    domain,
-    userName,
-    repoName,
-    commit,
-    subdir,
-  };
 
   const commitPart = queryStringOf(commit, customScripts);
 
@@ -106,7 +121,68 @@ function apiFromCommitInfo(
   }
 }
 
-export const apiFromUrl = (url, customScripts) => {
+interface ApiDataBase {
+  originalUrl: string;
+  domain: string;
+  userName: string;
+  repoName: string;
+}
+
+interface ApiData extends ApiDataBase {
+  commit?: undefined;
+  subdir?: undefined;
+}
+
+interface ApiContentBase {
+  data: CommitInfo;
+  apiUrl: string;
+  params: {
+    url: string;
+    commit?: string;
+  };
+}
+
+interface ApiSuccessContent extends ApiContentBase {
+  suggestion?: undefined;
+}
+
+interface ApiSuggestContent extends ApiContentBase {
+  warnType: "suggest-to-use";
+  suggestion: {
+    apiUrl: string;
+  };
+}
+
+interface ApiTypes {
+  error:
+    | {
+        errorType: "url-wrong";
+        data: { originalUrl: string; commit?: undefined; subdir?: undefined };
+      }
+    | {
+        errorType: "platform-not-supported";
+        data: ApiData;
+      };
+  choice: {
+    data: ApiData;
+    possibleApis: SingleApi[];
+    suggestion?: undefined;
+    apiUrl?: undefined;
+  };
+  warn: ApiSuggestContent;
+  success: ApiSuccessContent;
+}
+
+type Typed<Defs, Keys extends keyof Defs = keyof Defs> = {
+  [T in Keys]: { type: T } & Defs[T];
+}[Keys];
+
+export type Api = Typed<ApiTypes>;
+export type SingleApi = Typed<
+  Pick<ApiTypes, Exclude<keyof ApiTypes, "choice">>
+>;
+
+export const apiFromUrl = (url: string, customScripts: CustomScript[]): Api => {
   const match = REGEX_URL.exec(url.trim());
   if (!match) {
     return {
@@ -120,7 +196,7 @@ export const apiFromUrl = (url, customScripts) => {
 
   const [fullUrl, domain, userName, repoName, _commitAndSubDir] = match;
 
-  const data = {
+  const data: ApiData = {
     originalUrl: fullUrl,
     domain,
     userName,
