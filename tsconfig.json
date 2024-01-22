@@ -1,9 +1,6 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "paths": {
-      "@gitpkg": ["./packages"]
-    },
     "outDir": "dist",
     "noEmit": true,
     "composite": false
