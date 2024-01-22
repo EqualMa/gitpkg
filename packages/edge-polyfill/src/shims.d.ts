@@ -1,4 +1,3 @@
 declare module "readable-stream" {
-  import stream = require("stream");
-  export = stream;
+  export { default } from "stream";
 }

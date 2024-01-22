@@ -3,7 +3,7 @@ import {
   HybridEntry,
   headersOfEntry,
   modifyHeadersWithNewName,
-} from "./entry";
+} from "./entry.js";
 
 /**
  *

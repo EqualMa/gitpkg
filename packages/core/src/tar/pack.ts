@@ -5,7 +5,7 @@ import {
   HybridEntry,
   contentOfEntry,
   headersOfEntry,
-} from "./entry";
+} from "./entry.js";
 
 function writeEntryToPack(entry: HybridEntry, pack: tar.Pack): Promise<void> {
   const headers = headersOfEntry(entry);

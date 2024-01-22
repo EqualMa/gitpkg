@@ -1,4 +1,4 @@
-import * as impl from "./parse-query";
+import * as impl from "./parse-query.js";
 
 test("check if query key is custom script", () => {
   expect(impl.queryKeyIsCustomScript("scripts.postinstall")).toBe(true);

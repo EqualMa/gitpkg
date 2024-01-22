@@ -1,2 +1,2 @@
-export * from "./plugin";
-export * from "./parse-query";
+export * from "./plugin.js";
+export * from "./parse-query.js";

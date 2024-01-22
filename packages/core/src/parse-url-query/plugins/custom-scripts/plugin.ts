@@ -1,11 +1,11 @@
-import { PkgOptionsParserPlugin } from "../../parser";
+import { PkgOptionsParserPlugin } from "../../parser.js";
 import {
   PkgCustomScript,
   queryKeyIsCustomScript,
   parseQueryAsCustomScript,
-} from "./parse-query";
-import { PkgUrlAndCommitOptions } from "../url-and-commit";
-import { getValueOfQuery } from "../../get-value";
+} from "./parse-query.js";
+import type { PkgUrlAndCommitOptions } from "../url-and-commit/index.js";
+import { getValueOfQuery } from "../../get-value.js";
 
 export interface PkgCustomScriptsOptions {
   customScripts: PkgCustomScript[];

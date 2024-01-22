@@ -1,4 +1,4 @@
-import { extractSubFolderOfEntries } from "./extract-sub-folder";
+import { extractSubFolderOfEntries } from "./extract-sub-folder.js";
 import {
   tarEntries,
   tarEntriesPackAndExtract,
@@ -6,8 +6,8 @@ import {
   normalizeDecodedEntry,
   packAndExtract,
   decodeAndCollectHybridEntries,
-} from "../../test/util/tar-entry";
-import { headersOfEntry, hybridEntriesFromEntries } from "./entry";
+} from "../../test/util/tar-entry.js";
+import { headersOfEntry, hybridEntriesFromEntries } from "./entry.js";
 
 test("do not extract sub folder (only extract root folder)", async () => {
   const t = extractSubFolderOfEntries(

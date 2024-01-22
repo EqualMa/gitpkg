@@ -1,4 +1,4 @@
-import type { RequestQuery } from "./query";
+import type { RequestQuery } from "./query.js";
 
 type Overwrite<T, U> = {
   [K in keyof T | keyof U]: K extends keyof U

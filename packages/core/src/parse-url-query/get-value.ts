@@ -1,5 +1,5 @@
-import { PkgUrlAndCommitOptions } from "./plugins";
-import type { RequestQuery } from "./query";
+import type { PkgUrlAndCommitOptions } from "./plugins/index.js";
+import type { RequestQuery } from "./query.js";
 
 export function getValueOfQuery(
   query: RequestQuery,

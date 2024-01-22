@@ -1,7 +1,7 @@
-import { PkgOptionsParserPlugin } from "../../parser";
-import { QueryParamsInvalidError } from "../../error";
-import { PkgUrlAndCommitOptions } from "./plugin";
-import { parseCommitIshInfo } from "./commit-ish";
+import { PkgOptionsParserPlugin } from "../../parser.js";
+import { QueryParamsInvalidError } from "../../error.js";
+import { PkgUrlAndCommitOptions } from "./plugin.js";
+import { parseCommitIshInfo } from "./commit-ish.js";
 
 export const fromQuery: PkgOptionsParserPlugin<
   unknown,

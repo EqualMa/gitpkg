@@ -1,11 +1,11 @@
-import { modifySingleFileOfEntries } from "./modify-single-file";
-import { PkgCustomScript } from "../parse-url-query";
+import { modifySingleFileOfEntries } from "./modify-single-file.js";
+import type { PkgCustomScript } from "../parse-url-query/index.js";
 import {
   HybridEntries,
   HybridEntry,
   headersOfEntry,
   readEntryContent,
-} from "./entry";
+} from "./entry.js";
 
 export function addScriptsToPkgJson(
   pkgJson: Record<string, unknown>,

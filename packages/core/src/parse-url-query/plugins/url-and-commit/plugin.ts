@@ -1,9 +1,9 @@
-import { PkgOptionsParserPlugin } from "../../parser";
-import { fromUrl } from "./from-url";
-import { fromQuery } from "./from-query";
-import { CommitIshInfo } from "./commit-ish";
+import type { PkgOptionsParserPlugin } from "../../parser.js";
+import { fromUrl } from "./from-url.js";
+import { fromQuery } from "./from-query.js";
+import { CommitIshInfo } from "./commit-ish.js";
 
-export { CommitIshInfo } from "./commit-ish";
+export { CommitIshInfo } from "./commit-ish.js";
 export interface PkgUrlAndCommitOptions {
   url: string;
   commit: undefined | string;

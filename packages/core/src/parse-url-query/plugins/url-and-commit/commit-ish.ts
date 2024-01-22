@@ -1,6 +1,6 @@
 import { match } from "path-to-regexp";
-import { PkgUrlAndCommitOptions } from "./plugin";
-import { UrlInvalidError, QueryParamsInvalidError } from "../../error";
+import { PkgUrlAndCommitOptions } from "./plugin.js";
+import { UrlInvalidError, QueryParamsInvalidError } from "../../error.js";
 
 interface CommitIshInfoMatchResult {
   user: string;
