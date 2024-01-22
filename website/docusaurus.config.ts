@@ -1,6 +1,7 @@
 import { themes as prismThemes } from "prism-react-renderer";
 import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
+import * as manifest from "./static/manifest.json";
 
 // TODO: ROUTE: /guide
 // TODO: DOCS ABOUT ROUTE
@@ -8,9 +9,18 @@ import type * as Preset from "@docusaurus/preset-classic";
 
 const GITHUB = "https://github.com/EqualMa/gitpkg";
 
+function appleTouchIcons(sizes: string[]) {
+  return sizes.map(size => ({
+    tagName: "link",
+    rel: "apple-touch-icon",
+    sizes: `${size}x${size}`,
+    href: `/img/icons/favicon-${size}.png`,
+  }));
+}
+
 const config: Config = {
-  title: "GitPkg",
-  tagline: "Using sub folders of a repo as yarn/npm dependencies made easy",
+  title: manifest.name,
+  tagline: manifest.description,
   favicon: "img/favicon.svg",
 
   // Set the production url of your site here
@@ -35,7 +45,71 @@ const config: Config = {
     locales: ["en"],
   },
 
-  plugins: ["docusaurus-plugin-sass"],
+  plugins: [
+    "docusaurus-plugin-sass",
+    [
+      "@docusaurus/plugin-pwa",
+      {
+        debug: true,
+        offlineModeActivationStrategies: [
+          "appInstalled",
+          "standalone",
+          "queryString",
+        ],
+        pwaHead: [
+          {
+            tagName: "link",
+            rel: "icon",
+            href: "/img/docusaurus.png",
+          },
+          {
+            tagName: "link",
+            rel: "manifest",
+            href: "/manifest.json", // your PWA manifest
+          },
+          {
+            tagName: "meta",
+            name: "theme-color",
+            content: manifest.theme_color,
+          },
+          {
+            tagName: "link",
+            rel: "icon",
+            type: "image/png",
+            sizes: "196x196",
+            href: "/img/icons/favicon-196.png",
+          },
+          {
+            tagName: "meta",
+            name: "apple-mobile-web-app-capable",
+            content: "yes",
+          },
+          ...appleTouchIcons(["180", "167", "152", "120"]),
+          {
+            tagName: "meta",
+            name: "msapplication-TileImage",
+            content: "/img/logo.svg",
+          },
+          {
+            tagName: "meta",
+            name: "msapplication-TileColor",
+            content: "#F06292",
+          },
+          {
+            tagName: "meta",
+            name: "apple-mobile-web-app-status-bar-style",
+            content: "default",
+          },
+          {
+            tagName: "link",
+            rel: "mask-icon",
+            href: "/img/favicon.svg",
+            color: "#ffffff",
+          },
+        ],
+      },
+    ],
+  ],
 
   presets: [
     [
@@ -62,11 +136,11 @@ const config: Config = {
 
   themeConfig: {
     // Replace with your project's social card
-    image: "img/docusaurus-social-card.jpg",
+    // image: "img/social-card.jpg",
     navbar: {
-      title: "GitPkg",
+      title: manifest.name,
       logo: {
-        alt: "My Site Logo",
+        alt: `${manifest.name} Logo`,
         src: "img/logo.svg",
       },
       items: [
