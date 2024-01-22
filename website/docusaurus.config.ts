@@ -76,7 +76,9 @@ const config: Config = {
           {
             tagName: "link",
             rel: "icon",
-            href: "/img/docusaurus.png",
+            type: "image/png",
+            sizes: "196x196",
+            href: "/img/icons/favicon-196.png",
           },
           {
             tagName: "link",
