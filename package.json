@@ -19,7 +19,7 @@
     "build": "tsc -b",
     "build-all": "npm run build && npm run build-website",
     "clean": "tsc -b --clean",
-    "prepare": "husky install && npm run build"
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@types/jest": "^29.5.11",
