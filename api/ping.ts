@@ -1,4 +1,4 @@
-import * as subMod from "test-workspace/sub-module";
+import { codeloadUrl } from "@gitpkg/core/api/codeload-url";
 
 export const config = {
   runtime: "edge",
@@ -11,6 +11,6 @@ export default (request: Request) => {
     msg: `Hello ${name} at timestamp ${new Date().getTime()}`,
     query: [...url.searchParams],
     url: request.url,
-    modules: subMod,
+    testCodeloadUrl: codeloadUrl("a", "b"),
   });
 };
