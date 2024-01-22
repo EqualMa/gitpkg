@@ -3,6 +3,8 @@
   "references": [{ "path": "../../edge-polyfill" }],
   "compilerOptions": {
     "outDir": "../dist",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "composite": true
   },
   "exclude": ["**/*.spec.ts"]
