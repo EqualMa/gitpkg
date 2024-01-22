@@ -1,15 +1,15 @@
 import * as tar from "tar-stream";
-import { codeloadUrl } from "./codeload-url";
-import { extractSubFolderOfEntries } from "../tar/extract-sub-folder";
-import { addCustomScriptsToEntries } from "../tar/custom-scripts";
-import { prependPathOfEntries } from "../tar/prepend-path";
-import type { CommitIshInfo, PkgOptions } from "../parse-url-query";
+import { codeloadUrl } from "./codeload-url.js";
+import { extractSubFolderOfEntries } from "../tar/extract-sub-folder.js";
+import { addCustomScriptsToEntries } from "../tar/custom-scripts.js";
+import { prependPathOfEntries } from "../tar/prepend-path.js";
+import type { CommitIshInfo, PkgOptions } from "../parse-url-query/index.js";
 import {
   HybridEntries,
   HybridEntry,
   hybridEntriesFromEntries,
-} from "../tar/entry";
-import { pack } from "../tar/pack";
+} from "../tar/entry.js";
+import { pack } from "../tar/pack.js";
 import {
   DecompressionStream,
   CompressionStream,

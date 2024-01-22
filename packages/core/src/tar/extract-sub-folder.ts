@@ -4,7 +4,7 @@ import {
   headersOfEntry as entryHeaders,
   modifyHeadersWithNewName,
   resumeEntry,
-} from "./entry";
+} from "./entry.js";
 
 export async function* extractSubFolderOfEntries(
   entries: HybridEntries,

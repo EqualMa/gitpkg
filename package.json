@@ -14,7 +14,7 @@
   },
   "scripts": {
     "lint": "eslint --max-warnings 0",
-    "test": "jest",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "build-website": "npm run build -w website -- --out-dir ../public/about",
     "build": "tsc -b",
     "build-all": "npm run build && npm run build-website",

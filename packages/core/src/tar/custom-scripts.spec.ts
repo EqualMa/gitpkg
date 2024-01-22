@@ -1,10 +1,10 @@
-import * as impl from "./custom-scripts";
-import { PkgCustomScript } from "../parse-url-query";
+import * as impl from "./custom-scripts.js";
+import { PkgCustomScript } from "../parse-url-query/index.js";
 import {
   decodeAndCollectHybridEntries,
   tarEntries,
-} from "../../test/util/tar-entry";
-import { DecodedEntry, hybridEntriesFromDecodedEntries } from "./entry";
+} from "../../test/util/tar-entry.js";
+import { DecodedEntry, hybridEntriesFromDecodedEntries } from "./entry.js";
 
 const ADD_TYPES: PkgCustomScript["type"][] = ["append", "prepend", "replace"];
 

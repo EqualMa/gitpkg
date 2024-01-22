@@ -1,6 +1,7 @@
 {
   "name": "@gitpkg/core",
   "version": "1.0.0-alpha",
+  "type": "module",
   "exports": {
     "./api/*": "./dist/api/*.js",
     "./parse-url-query": "./dist/parse-url-query/index.js"

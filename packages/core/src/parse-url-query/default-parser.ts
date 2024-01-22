@@ -1,5 +1,5 @@
-import { PkgOptionsParser } from "./parser";
-import { getUrlAndCommitPlugin, customScriptsPlugin } from "./plugins";
+import { PkgOptionsParser } from "./parser.js";
+import { getUrlAndCommitPlugin, customScriptsPlugin } from "./plugins/index.js";
 
 const getParser = (parseFromUrl: boolean) =>
   new PkgOptionsParser()

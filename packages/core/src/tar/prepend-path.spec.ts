@@ -1,12 +1,12 @@
-import * as impl from "./prepend-path";
+import * as impl from "./prepend-path.js";
 import {
   tarEntriesPackAndExtract,
   decodeAndCollectEntries,
   packAndExtract,
   tarEntries,
   decodeAndCollectHybridEntries,
-} from "../../test/util/tar-entry";
-import { hybridEntriesFromEntries } from "./entry";
+} from "../../test/util/tar-entry.js";
+import { hybridEntriesFromEntries } from "./entry.js";
 
 test("prepend path", () =>
   Promise.all(

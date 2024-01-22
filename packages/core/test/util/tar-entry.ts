@@ -8,8 +8,8 @@ import {
   hybridEntriesFromEntries,
   readEntryContent,
   resumeEntry,
-} from "../../src/tar/entry";
-import { pack as packHybridEntries } from "../../src/tar/pack";
+} from "../../src/tar/entry.js";
+import { pack as packHybridEntries } from "../../src/tar/pack.js";
 
 /**
  * Make headers.mtime a constant date.

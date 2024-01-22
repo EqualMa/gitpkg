@@ -1,4 +1,4 @@
-import { HybridEntries, HybridEntry, headersOfEntry } from "./entry";
+import { HybridEntries, HybridEntry, headersOfEntry } from "./entry.js";
 
 type MaybePromise<T> = T | Promise<T>;
 

@@ -1,2 +1,2 @@
-export * from "./url-and-commit";
-export * from "./custom-scripts";
+export * from "./url-and-commit/index.js";
+export * from "./custom-scripts/index.js";
