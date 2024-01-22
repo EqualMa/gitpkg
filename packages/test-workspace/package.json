@@ -1,0 +1,10 @@
+{
+  "name": "test-workspace",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {},
+  "author": "",
+  "license": "ISC"
+}
