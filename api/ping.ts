@@ -1,4 +1,4 @@
-import * as parseUrlQuery from "@gitpkg/core/parse-url-query";
+import { codeloadUrl } from "@gitpkg/core/api/codeload-url";
 
 export const config = {
   runtime: "edge",
@@ -11,6 +11,6 @@ export default (request: Request) => {
     msg: `Hello ${name} at timestamp ${new Date().getTime()}`,
     query: [...url.searchParams],
     url: request.url,
-    modules: { parseUrlQuery },
+    testCodeloadUrl: codeloadUrl("a", "b"),
   });
 };
