@@ -2,8 +2,12 @@
   "name": "@gitpkg/core",
   "version": "1.0.0-alpha",
   "exports": {
-    "./api/*": "./dist/api/*.js",
-    "./parse-url-query": "./dist/parse-url-query/index.js"
+    "./api/*": {
+      "import": "./dist/api/*.js"
+    },
+    "./parse-url-query": {
+      "import": "./dist/parse-url-query/index.js"
+    }
   },
   "license": "MIT",
   "scripts": {
