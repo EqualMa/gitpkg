@@ -4,5 +4,5 @@
     "outDir": "dist-test"
   },
   "include": ["test/**/*.ts", "src/**/*.spec.ts"],
-  "references": [{ "path": "src" }]
+  "references": [{ "path": "src/tsconfig.src.json" }]
 }
