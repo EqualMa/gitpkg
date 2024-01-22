@@ -9,7 +9,13 @@
   "dependencies": {
     "@gitpkg/edge-polyfill": "^1.0.0-alpha.1",
     "@types/tar-stream": "^3.1.3",
+    "b4a": "github:EqualMa/b4a-edge-runtime",
     "path-to-regexp": "^6.1.0",
     "tar-stream": "^3.1.6"
+  },
+  "overrides": {
+    "tar-stream": {
+      "b4a": "github:EqualMa/b4a-edge-runtime"
+    }
   }
 }
