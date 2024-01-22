@@ -1,4 +1,5 @@
 import * as stream from "@gitpkg/edge-polyfill/stream";
+import * as pkg from "@gitpkg/core/api/download-git-pkg";
 
 export const config = {
   runtime: "edge",
@@ -11,6 +12,6 @@ export default (request: Request) => {
     msg: `Hello ${name} at timestamp ${new Date().getTime()}`,
     query: [...url.searchParams],
     url: request.url,
-    modules: { stream },
+    modules: { stream, pkg },
   });
 };
