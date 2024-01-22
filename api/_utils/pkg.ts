@@ -1,11 +1,16 @@
 import * as codes from "./http_status_code.js";
-import { downloadGitPkg, getTgzUrl } from "@gitpkg/core/api/download-git-pkg";
 import { Buffer } from "buffer";
+
+// FIXME: use module instead of relative path
+import {
+  downloadGitPkg,
+  getTgzUrl,
+} from "../../packages/core/src/api/download-git-pkg.js";
 import {
   getDefaultParser,
   paramsToQuery,
   type RequestQuery,
-} from "@gitpkg/core/parse-url-query";
+} from "../../packages/core/src/parse-url-query/index.js";
 
 /**
  *
