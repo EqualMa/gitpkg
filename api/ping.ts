@@ -1,4 +1,4 @@
-import * as core from "@gitpkg/core";
+import * as core from "@gitpkg/core/test-mod";
 
 export const config = {
   runtime: "edge",
