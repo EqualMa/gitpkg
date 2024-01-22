@@ -1,5 +1,5 @@
 import * as tar from "tar-stream";
-import { pipeline } from "@gitpkg/edge-polyfill/stream";
+import { pipeline } from "@gitpkg/edge-polyfill/dist/stream.js";
 import {
   HybridEntries,
   HybridEntry,
