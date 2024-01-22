@@ -1,4 +1,4 @@
-import * as testMod from "@gitpkg/core/test-mod";
+import * as core from "@gitpkg/core";
 
 export const config = {
   runtime: "edge",
@@ -11,6 +11,6 @@ export default (request: Request) => {
     msg: `Hello ${name} at timestamp ${new Date().getTime()}`,
     query: [...url.searchParams],
     url: request.url,
-    modules: testMod,
+    modules: core,
   });
 };

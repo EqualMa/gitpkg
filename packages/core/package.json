@@ -3,6 +3,7 @@
   "version": "1.0.0-alpha",
   "type": "module",
   "exports": {
+    ".": "./dist/index.js",
     "./api/*": "./dist/api/*.js",
     "./test-mod": "./dist/test-mod.js",
     "./parse-url-query": "./dist/parse-url-query/index.js"
