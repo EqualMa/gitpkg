@@ -1,4 +1,4 @@
-import * as stream from "../packages/edge-polyfill/src/stream.js";
+import * as stream from "@gitpkg/edge-polyfill/stream";
 
 export const config = {
   runtime: "edge",
