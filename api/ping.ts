@@ -1,4 +1,4 @@
-import * as test from "test-workspace";
+import * as parseUrlQuery from "@gitpkg/core/parse-url-query";
 
 export const config = {
   runtime: "edge",
@@ -11,6 +11,6 @@ export default (request: Request) => {
     msg: `Hello ${name} at timestamp ${new Date().getTime()}`,
     query: [...url.searchParams],
     url: request.url,
-    modules: { test },
+    modules: { parseUrlQuery },
   });
 };
