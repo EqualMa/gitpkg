@@ -1,4 +1,5 @@
 {
+  "buildCommand": "npm run build-all",
   "redirects": [
     { "source": "/", "destination": "/about", "permanent": true },
     { "source": "/guide", "destination": "/about/guide", "permanent": true }
