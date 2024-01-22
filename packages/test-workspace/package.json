@@ -2,8 +2,10 @@
   "name": "test-workspace",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "type": "module",
+  "exports": {
+    "./sub-module": "./sub-module.js"
+  },
   "devDependencies": {},
   "scripts": {},
   "author": "",
