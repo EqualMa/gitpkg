@@ -1,4 +1,4 @@
-import * as subMod from "@gitpkg/test-namespaced-workspace/sub-module";
+import * as testMod from "@gitpkg/core/test-mod";
 
 export const config = {
   runtime: "edge",
@@ -11,6 +11,6 @@ export default (request: Request) => {
     msg: `Hello ${name} at timestamp ${new Date().getTime()}`,
     query: [...url.searchParams],
     url: request.url,
-    modules: subMod,
+    modules: testMod,
   });
 };

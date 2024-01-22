@@ -4,6 +4,7 @@
   "type": "module",
   "exports": {
     "./api/*": "./dist/api/*.js",
+    "./test-mod": "./dist/test-mod.js",
     "./parse-url-query": "./dist/parse-url-query/index.js"
   },
   "license": "MIT",
