@@ -9,6 +9,9 @@ import * as manifest from "./static/manifest.json";
 
 const GITHUB = "https://github.com/EqualMa/gitpkg";
 
+const GADS_ID = process.env.GADS_ID;
+const GTAG_ID = process.env.GTAG_ID;
+
 function appleTouchIcons(sizes: string[]) {
   return sizes.map(size => ({
     tagName: "link",
@@ -44,6 +47,19 @@ const config: Config = {
     defaultLocale: "en",
     locales: ["en"],
   },
+
+  headTags: [
+    GADS_ID
+      ? {
+          tagName: "script",
+          attributes: {
+            async: "async",
+            src: `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${GADS_ID}`,
+            crossorigin: "anonymous",
+          },
+        }
+      : undefined,
+  ].filter(Boolean as unknown as <T>(x: T) => x is Exclude<T, undefined>),
 
   plugins: [
     "docusaurus-plugin-sass",
@@ -130,6 +146,7 @@ const config: Config = {
             "./src/css/custom.scss",
           ],
         },
+        gtag: GTAG_ID ? { trackingID: GTAG_ID } : undefined,
       } satisfies Preset.Options,
     ],
   ],
