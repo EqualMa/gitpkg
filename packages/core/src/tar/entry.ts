@@ -1,5 +1,5 @@
 import type * as tar from "tar-stream";
-import { StringDecoder } from "@gitpkg/edge-polyfill/string_decoder";
+import { StringDecoder } from "@gitpkg/edge-polyfill/dist/string_decoder.js";
 
 declare module "tar-stream" {
   interface Headers {

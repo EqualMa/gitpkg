@@ -13,8 +13,11 @@ import { pack } from "../tar/pack.js";
 import {
   DecompressionStream,
   CompressionStream,
-} from "@gitpkg/edge-polyfill/compression-streams";
-import { readableToWeb, writableToWeb } from "@gitpkg/edge-polyfill/web-stream";
+} from "@gitpkg/edge-polyfill/dist/compression-streams.js";
+import {
+  readableToWeb,
+  writableToWeb,
+} from "@gitpkg/edge-polyfill/dist/web-stream.js";
 
 export type PipelineItem =
   | NodeJS.ReadableStream
