@@ -1,13 +1,9 @@
 {
+  "redirects": [
+    { "source": "/", "destination": "/about", "permanent": true },
+    { "source": "/guide", "destination": "/about/guide", "permanent": true }
+  ],
   "rewrites": [
-    {
-      "source": "/([^/]+)(/)?",
-      "destination": "/$1/index.html"
-    },
-    {
-      "source": "/api/pkg",
-      "destination": "/api/pkg.ts"
-    },
     {
       "source": "/api/pkg.tgz",
       "destination": "/api/pkg.ts"

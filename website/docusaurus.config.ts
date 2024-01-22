@@ -3,7 +3,6 @@ import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
 import * as manifest from "./static/manifest.json";
 
-// TODO: ROUTE: /guide
 // TODO: DOCS ABOUT ROUTE
 // TODO: SMALL SCREEN  NAV LINK DO NOT COLLAPSE
 
@@ -30,7 +29,10 @@ const config: Config = {
   url: "https://gitpkg.vercel.app",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: "/",
+
+  // GitHub prevents about as username or org name,
+  // so GitPkg can reserve /about/** for docs
+  baseUrl: "/about/",
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -136,9 +138,7 @@ const config: Config = {
         docs: {
           sidebarPath: "./sidebars.ts",
           editUrl: `${GITHUB}/tree/main/website`,
-          // GitHub prevents about as username or org name,
-          // so GitPkg can reserve /about/** for docs
-          routeBasePath: "/about",
+          routeBasePath: "/",
         },
         blog: false,
         theme: {
