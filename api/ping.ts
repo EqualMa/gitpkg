@@ -1,4 +1,4 @@
-import * as subMod from "test-workspace/sub-module";
+import * as subMod from "@gitpkg/test-namespaced-workspace/sub-module";
 
 export const config = {
   runtime: "edge",

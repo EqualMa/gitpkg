@@ -1,0 +1,12 @@
+{
+  "name": "@gitpkg/test-namespaced-workspace",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "exports": {
+    "./sub-module": "./sub-module.js"
+  },
+  "devDependencies": {},
+  "author": "",
+  "license": "ISC"
+}
