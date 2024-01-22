@@ -33,6 +33,7 @@ export default function CustomScriptEdit({
       <div className={styles.scriptActions}>
         <GSelect
           value={typeToOptions.get(value.type)}
+          getOptionValue={opt => opt.type}
           onChange={newOpt => {
             newOpt ? onChange?.({ ...value, type: newOpt.type }) : onRemove?.();
           }}
