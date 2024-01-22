@@ -17,7 +17,7 @@
     "test": "jest",
     "build-website": "npm run build -w website -- --out-dir ../public/about",
     "build": "tsc -b",
-    "vercel-build": "tsc -b && npm run build-website",
+    "build-all": "npm run build && npm run build-website",
     "clean": "tsc -b --clean",
     "prepare": "husky install"
   },
