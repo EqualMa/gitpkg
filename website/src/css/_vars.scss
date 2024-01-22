@@ -36,11 +36,13 @@ $codeBgColor: #282c34;
 }
 
 $trans:
-  all ease 0.2s 0s,
+  outline ease 0.2s 0s,
+  border ease 0.2s 0s,
   box-shadow ease-out 0.4s 0s;
 
 @mixin pkg-focus() {
-  &:focus {
+  &:focus,
+  body:not(.navigation-with-keyboard) &:focus {
     box-shadow: 0.5em 0.5em 1em #2c3e506e;
     @include pkg-outline;
     outline-color: $primaryColor;
@@ -54,6 +56,6 @@ $trans:
   &:hover {
     @include pkg-outline;
     box-shadow: 0.5em 0.5em 2em #2c3e506e;
-    outline-color: $accentColor;
+    outline-color: var(--ifm-color-primary);
   }
 }

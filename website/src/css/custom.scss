@@ -2,6 +2,21 @@
 
 @use "./_vars" as *;
 
+@mixin button-color($bg: #f0f0f0, $bgDark: #000000) {
+  background-color: $bg;
+
+  &:active {
+    background-color: darken($bg, 10%);
+  }
+
+  [data-theme="dark"] & {
+    background-color: $bgDark;
+    &:active {
+      background-color: lighten($bgDark, 10%);
+    }
+  }
+}
+
 button,
 input,
 optgroup,
@@ -50,12 +65,12 @@ textarea {
 
 .gitpkg-button {
   @mixin c($color) {
-    @include pkg-outline();
+    @include pkg-outline;
     outline-color: $color;
   }
-  $bg: rgb(240, 240, 240);
 
-  background-color: $bg;
+  @include button-color;
+
   text-align: center;
   cursor: pointer;
 
@@ -71,9 +86,10 @@ textarea {
   }
 
   &:active {
-    @include pkg-outline;
-    @include c(darken($accentColor, 25%));
-    background-color: darken($bg, 10%);
+    &,
+    body:not(.navigation-with-keyboard) & {
+      @include c(darken($accentColor, 25%));
+    }
   }
   &.icon {
     width: $unitSize;
@@ -93,17 +109,18 @@ textarea {
   }
 }
 
-.gitpkg-select.v-select {
-  padding: 0;
-  position: relative;
-  height: $unitSize;
+.gitpkg-select {
+  & > &__control {
+    padding: 0;
+    position: relative;
+    height: $unitSize;
+    border-radius: 0;
 
-  box-sizing: border-box;
-  & * {
     box-sizing: border-box;
-  }
+    & * {
+      box-sizing: border-box;
+    }
 
-  .vs__dropdown-toggle {
     width: 100%;
     max-width: 100%;
     height: 100%;
@@ -114,76 +131,60 @@ textarea {
     @include pkg-border($textColor);
     @include pkg-focus;
     @include pkg-hover;
-
-    .vs__actions {
-      display: flex;
-
-      > * {
-        @extend .gitpkg-button;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        height: 100%;
-        border: none;
-      }
-    }
-    .vs__selected-options {
-      display: flex;
-
-      padding: 0 1em;
-
-      .vs__selected {
-        flex: 0 1 auto;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      .vs__search {
-        flex: 0 1 auto;
-        display: block;
-        width: 0;
-        appearance: none;
-        border: none;
-        outline: none;
-      }
-    }
   }
-  &.vs--open .vs__open-indicator > * {
-    transform: rotate(180deg) scale(1);
-  }
-  .vs__dropdown-menu {
-    display: block;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 1000;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    overflow-y: auto;
-    border-top-style: none;
-    text-align: left;
-    list-style: none;
-    background: white;
-  }
-  .vs__dropdown-option {
-    @extend .gitpkg-button;
-    border-width: 0;
-    overflow: visible;
-    &.vs__dropdown-option--selected {
-      background-color: $accentColor;
-      color: white;
-    }
-    &.vs__dropdown-option--highlight {
-      @include pkg-hover;
-    }
-  }
-  &.relaxed .vs__dropdown-toggle {
+
+  &.relaxed > &__control {
     border: 0;
+
+    background-color: field;
 
     &:not(:hover):not(:focus) {
       box-shadow: 0px 0 1px 0 black;
+    }
+  }
+
+  & &__value-container {
+    padding: 0 1em;
+    & .gitpkg-select__single-value {
+      color: inherit;
+    }
+  }
+
+  & &__indicators {
+    @include button-color;
+  }
+
+  & > .gitpkg-select__control--menu-is-open &__indicators > .mdi-icon {
+    transform: rotate(180deg) scale(1);
+  }
+
+  & > &__menu {
+    border-radius: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    > .gitpkg-select__menu-list {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+
+  & &__option {
+    text-align: center;
+    cursor: pointer;
+
+    background-color: #f0f0f0;
+    [data-theme="dark"] &:not(&--is-selected) {
+      background-color: rgb(59, 59, 59);
+      background-color: field;
+    }
+
+    &.gitpkg-select__option--is-selected {
+      background-color: var(--ifm-color-primary);
+      color: white;
+    }
+
+    &.gitpkg-select__option--is-focused {
+      @include pkg-hover;
     }
   }
 }
