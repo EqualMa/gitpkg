@@ -1,3 +1,5 @@
+import { checkRateLimitEnabled } from "./_utils/limit.js";
+
 export const config = {
   runtime: "edge",
 };
@@ -9,5 +11,6 @@ export default (request: Request) => {
     msg: `Hello ${name} at timestamp ${new Date().getTime()}`,
     query: [...url.searchParams],
     url: request.url,
+    rateLimitEnabled: checkRateLimitEnabled(),
   });
 };
