@@ -38,7 +38,8 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "@gitpkg/core": "^1.0.0-alpha"
+    "@gitpkg/core": "^1.0.0-alpha",
+    "@vercel/kv": "^1.0.1"
   },
   "volta": {
     "node": "20.11.0"

@@ -10,6 +10,7 @@ import {
   paramsToQuery,
   type RequestQuery,
 } from "@gitpkg/core/dist/parse-url-query/index.js";
+import incrementAndCheckRateLimit from "./limit.js";
 
 /**
  *
@@ -94,6 +95,17 @@ export async function pkg({
       query,
     );
     const { commitIshInfo: cii } = pkgOpts;
+
+    const rateLimitResult = await incrementAndCheckRateLimit(
+      `github:${cii.user}:${cii.repo}`,
+    );
+
+    if (rateLimitResult.exceeded) {
+      throw new ResponseError({
+        status: codes.FORBIDDEN,
+        message: `Repository ${cii.user}:${cii.repo} has exceeded rate limits`,
+      });
+    }
 
     const tgzUrl = getTgzUrl(cii);
 
