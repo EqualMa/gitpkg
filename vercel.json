@@ -1,6 +1,6 @@
 {
   "buildCommand": "npm run build-all",
-  "framework": "docusaurus-2",
+  "framework": null,
   "outputDirectory": "public",
   "redirects": [
     { "source": "/", "destination": "/about", "permanent": true },
