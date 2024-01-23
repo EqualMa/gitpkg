@@ -19,6 +19,7 @@ import {
 export function parseUrl(url: string): {
   query: RequestQuery;
   requestUrl: string;
+  requestPathName: string;
 } {
   const u = new URL(url);
 
@@ -27,6 +28,7 @@ export function parseUrl(url: string): {
   return {
     query: paramsToQuery(u.searchParams),
     requestUrl,
+    requestPathName: u.pathname,
   };
 }
 
@@ -49,6 +51,7 @@ function chainReadableStreams(rs: ReadableStream[]): ReadableStream {
 
 export interface PkgToResponseOptions {
   requestUrl: string | undefined;
+  requestPathName: string | undefined;
   query: RequestQuery;
   parseFromUrl: boolean;
 }
@@ -80,13 +83,14 @@ class ResponseError extends Error {
 
 export async function pkg({
   /** Url path starting with "/" */
+  requestPathName,
   requestUrl,
   query,
   parseFromUrl,
 }: PkgToResponseOptions): Promise<[Response, Promise<unknown> | null]> {
   try {
     const pkgOpts = getDefaultParser(parseFromUrl).parse(
-      requestUrl || "",
+      requestPathName || "",
       query,
     );
     const { commitIshInfo: cii } = pkgOpts;
