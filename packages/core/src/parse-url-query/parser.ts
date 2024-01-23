@@ -9,7 +9,7 @@ type Overwrite<T, U> = {
 };
 
 export type PkgOptionsParserPlugin<T, U> = (
-  url: string,
+  requestPathName: string,
   query: RequestQuery,
   previousOptions: T,
 ) => U;

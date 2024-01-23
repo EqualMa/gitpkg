@@ -7,7 +7,8 @@ export { CommitIshInfo } from "./commit-ish.js";
 export interface PkgUrlAndCommitOptions {
   url: string;
   commit: undefined | string;
-  parsedFromUrl: boolean;
+  urlFrom: "pathname" | "query";
+  commitFrom: "shortcut" | "query";
   commitIshInfo: CommitIshInfo;
 }
 

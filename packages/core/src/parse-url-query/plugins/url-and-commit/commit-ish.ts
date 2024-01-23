@@ -25,12 +25,12 @@ const DEFAULT_COMMIT_ISH = "master";
 export function parseCommitIshInfo(
   url: PkgUrlAndCommitOptions["url"],
   commit: PkgUrlAndCommitOptions["commit"],
-  parsedFromUrl: PkgUrlAndCommitOptions["parsedFromUrl"],
+  urlFrom: PkgUrlAndCommitOptions["urlFrom"],
 ): CommitIshInfo {
   const res = matchCommitIshInfo(url);
 
   if (res === false) {
-    throw parsedFromUrl
+    throw urlFrom === "pathname"
       ? new UrlInvalidError()
       : new QueryParamsInvalidError("url");
   }

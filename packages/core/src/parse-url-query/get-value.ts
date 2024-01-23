@@ -6,20 +6,29 @@ export function getValueOfQuery(
   key: string,
   options: PkgUrlAndCommitOptions,
 ): undefined | string | string[] {
-  const commitFromUrl: string | undefined = options.parsedFromUrl
-    ? options.commit
-    : undefined;
+  const commitFromShortcut: string | undefined =
+    options.commitFrom === "shortcut" ? options.commit : undefined;
   const v: undefined | string | string[] = query[key];
 
-  if (key === commitFromUrl) {
+  // Remove empty string from value
+  if (key === commitFromShortcut) {
     if (typeof v === "string") {
-      return v === commitFromUrl ? undefined : v;
+      if (v !== "")
+        throw new Error(
+          `Invalid State: value of ${key} should be empty string`,
+        );
+
+      return undefined;
     } else if (Array.isArray(v)) {
-      if (v.length === 0) return undefined;
-      if (v[0] === commitFromUrl) {
-        if (v.length === 1) return undefined;
-        else v.slice(1);
-      }
+      const values = v.filter(vv => vv !== "");
+
+      if (values.length !== v.length - 1)
+        throw new Error(
+          `Invalid State: values of ${key} should contain exactly one empty string`,
+        );
+
+      if (values.length === 0) return undefined;
+      else return values;
     }
   } else return v;
 }
