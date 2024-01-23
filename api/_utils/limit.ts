@@ -28,13 +28,17 @@ function getExpireTimestampInSeconds(time: Date): number {
   return expire;
 }
 
+export function checkRateLimitEnabled(): boolean {
+  return Boolean(process.env.KV_REST_API_URL);
+}
+
 export default async function incrementAndCheckRateLimit(
   repoId: string,
 ): Promise<
   | { rateLimitEnabled: false; exceeded?: undefined }
   | { rateLimitEnabled: true; exceeded: boolean }
 > {
-  if (!process.env.KV_REST_API_URL) {
+  if (!checkRateLimitEnabled()) {
     return { rateLimitEnabled: false };
   }
 
