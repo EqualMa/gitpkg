@@ -19,11 +19,13 @@ function getPeriodKey(time: Date): string {
 const SECONDS_OF_2_DAYS = 172800; /* 2 * 24 * 60 * 60 */
 
 function getExpireTimestampInSeconds(time: Date): number {
-  const firstDayOfMonth = new Date(time);
-  firstDayOfMonth.setUTCDate(1);
+  const startOfThePeriod = new Date(time);
+  startOfThePeriod.setUTCHours(0, 0, 0, 0);
+
+  const periodExpireSeconds = SECONDS_OF_2_DAYS;
 
   const expire =
-    Math.ceil(firstDayOfMonth.getTime() / 1000) + SECONDS_OF_2_DAYS;
+    Math.ceil(startOfThePeriod.getTime() / 1000) + periodExpireSeconds;
 
   return expire;
 }
