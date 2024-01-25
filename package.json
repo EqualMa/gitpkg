@@ -15,7 +15,8 @@
   "scripts": {
     "lint": "eslint --max-warnings 0",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "build-website": "npm run build -w website -- --out-dir ../public/about",
+    "build-website": "npm run build -w website -- --out-dir ../public/about && npm run build-404",
+    "build-404": "node -e 'fs.copyFileSync(`public/about/404.html`, `public/404.html`)'",
     "build": "tsc -b",
     "build-all": "npm run build && npm run build-website",
     "clean": "tsc -b --clean",
