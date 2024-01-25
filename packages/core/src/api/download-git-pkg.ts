@@ -10,10 +10,10 @@ import {
   hybridEntriesFromEntries,
 } from "../tar/entry.js";
 import { pack } from "../tar/pack.js";
-import {
-  DecompressionStream,
-  CompressionStream,
-} from "@gitpkg/edge-polyfill/dist/compression-streams.js";
+import { DecompressionStream } from "@gitpkg/edge-polyfill/dist/compression-streams.js";
+// import { CompressionStream } from "@gitpkg/edge-polyfill/dist/compression-streams.js";
+// We are using CompressionStream with pako because it outputs same results as `node:zlib`
+import { CompressionStream } from "@gitpkg/edge-polyfill/dist/compression-streams-pako.js";
 import {
   readableToWeb,
   writableToWeb,
@@ -48,7 +48,7 @@ export function getTgzUrl(cii: CommitIshInfo): string {
 export function downloadGitPkg(
   pkgOpts: PkgOptions,
   readable: ReadableStream,
-  writable: WritableStream,
+  writable: WritableStream<ArrayBuffer>,
 ): Promise<unknown> {
   const extract = tar.extract();
 

@@ -139,7 +139,7 @@ export async function pkg({
       });
     }
 
-    const transform = new TransformStream();
+    const transform = new TransformStream<ArrayBuffer, ArrayBuffer>();
     const resp = new Response(transform.readable, {
       status: 200,
       headers: [
