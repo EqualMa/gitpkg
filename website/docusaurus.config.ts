@@ -171,7 +171,7 @@ const config: Config = {
           label: "Guide",
         },
         {
-          href: "https://github.com/facebook/docusaurus",
+          href: GITHUB,
           label: "GitHub",
           position: "right",
         },
