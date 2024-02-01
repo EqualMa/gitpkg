@@ -2,10 +2,7 @@ import ActionBar from "./ActionBar";
 import CustomScriptEdit, { CustomScript } from "./CustomScriptEdit";
 import WrenchOutlineIcon from "mdi-react/WrenchOutlineIcon";
 import HelpIcon from "mdi-react/HelpIcon";
-
-function seeCustomScriptHelp() {
-  window.open("/about/guide/#custom-scripts");
-}
+import Link from "@docusaurus/Link";
 
 export default function CustomScripts({
   customScripts,
@@ -70,13 +67,13 @@ export default function CustomScripts({
       >
         Add a custom script
       </button>
-      <button
+      <Link
+        to="/about/guide#custom-scripts"
+        target="_blank"
         className="gitpkg-button icon with-left"
-        type="button"
-        onClick={seeCustomScriptHelp}
       >
         <HelpIcon size={16} />
-      </button>
+      </Link>
     </ActionBar>
   );
 }
