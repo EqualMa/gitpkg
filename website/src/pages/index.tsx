@@ -5,6 +5,7 @@ import Layout from "@theme/Layout";
 import Heading from "@theme/Heading";
 import Cover from "@site/static/img/cover.svg";
 import GitPkgApi from "@site/src/components/GitPkgApi";
+import Funding from "@site/src/components/Funding";
 
 import styles from "./index.module.css";
 
@@ -39,6 +40,18 @@ export default function Home(): JSX.Element {
         <div style={{ textAlign: "center" }}>
           You can also check out the detailed {}
           <Link to="/about/guide">guide</Link>.
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            maxWidth: "40em",
+            margin: "1em auto",
+          }}
+        >
+          <Funding />
         </div>
       </main>
     </Layout>
