@@ -10,10 +10,13 @@ import {
   hybridEntriesFromEntries,
 } from "../tar/entry.js";
 import { pack } from "../tar/pack.js";
-import { DecompressionStream } from "@gitpkg/edge-polyfill/dist/compression-streams.js";
+// import { DecompressionStream } from "@gitpkg/edge-polyfill/dist/compression-streams.js";
 // import { CompressionStream } from "@gitpkg/edge-polyfill/dist/compression-streams.js";
 // We are using CompressionStream with pako because it outputs same results as `node:zlib`
-import { CompressionStream } from "@gitpkg/edge-polyfill/dist/compression-streams-pako.js";
+import {
+  CompressionStream,
+  DecompressionStream,
+} from "@gitpkg/edge-polyfill/dist/compression-streams-pako.js";
 import {
   readableToWeb,
   writableToWeb,
@@ -59,7 +62,7 @@ export function downloadGitPkg(
 
   const pipe = readable
     .pipeThrough(new DecompressionStream("gzip"))
-    .pipeTo(writableToWeb(extract) satisfies WritableStream);
+    .pipeTo(writableToWeb(extract) as WritableStream<unknown>);
   const [p, packPromise] = pack(gen);
 
   const pipeOut = (readableToWeb(p) satisfies ReadableStream)
