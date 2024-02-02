@@ -1,14 +1,10 @@
 import * as pako from "pako";
 
-export class CompressionStream extends TransformStream<
+class PakoStream<S extends pako.Deflate | pako.Inflate> extends TransformStream<
   ArrayBuffer | ArrayBufferView,
   ArrayBuffer
 > {
-  constructor(format: string) {
-    if (format !== "gzip")
-      throw new Error(`Compression format ${format} not implemented`);
-
-    const compressor = new pako.Deflate({ gzip: true });
+  constructor(compressor: S) {
     let endCb: (() => void) | undefined;
     super(
       {
@@ -56,5 +52,23 @@ export class CompressionStream extends TransformStream<
         highWaterMark: 65536,
       },
     );
+  }
+}
+
+export class CompressionStream extends PakoStream<pako.Deflate> {
+  constructor(format: string) {
+    if (format !== "gzip")
+      throw new Error(`Compression format ${format} not implemented`);
+
+    super(new pako.Deflate({ gzip: true }));
+  }
+}
+
+export class DecompressionStream extends PakoStream<pako.Inflate> {
+  constructor(format: string) {
+    if (format !== "gzip")
+      throw new Error(`Decompression format ${format} not implemented`);
+
+    super(new pako.Inflate());
   }
 }
