@@ -32,7 +32,7 @@ export default function Home(): JSX.Element {
     >
       <HomepageHeader />
       <main className={styles.howTo}>
-        <Heading as="h1" style={{ textAlign: "center" }}>
+        <Heading as="h1" style={{ textAlign: "center", paddingTop: "2em" }}>
           How to use
         </Heading>
         <GitPkgApi />
