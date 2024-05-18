@@ -11,4 +11,4 @@ GitPkg enables you to use a sub directory in a github repo as yarn / npm depende
 :unicorn: Features:
 
 - sub folder of a github repo as yarn / npm dependency
-- use [custom scripts](https://gitpkg.now.sh/guide/#custom-scripts) to build source code when installing
+- use [custom scripts](https://gitpkg.vercel.app/about/guide#custom-scripts) to build source code when installing
