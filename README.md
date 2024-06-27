@@ -2,11 +2,11 @@
 
 # GitPkg
 
-[![GitHub deployments](https://img.shields.io/github/deployments/EqualMa/gitpkg/production?label=gitpkg.now.sh&logo=zeit&style=flat-square)](https://gitpkg.now.sh)
+[![GitHub deployments](https://img.shields.io/github/deployments/EqualMa/gitpkg/production?label=gitpkg.vercel.app&logo=zeit&style=flat-square)](https://gitpkg.vercel.app)
 
 GitPkg enables you to use a sub directory in a github repo as yarn / npm dependency.
 
-[:tada: Try Now !](https://gitpkg.now.sh)
+[:tada: Try Now !](https://gitpkg.vercel.app)
 
 :unicorn: Features:
 
